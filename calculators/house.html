@@ -1,436 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Malaysia House Purchase Cost Calculator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root {
-      --bg: #0f172a;
-      --card: #111827;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --accent: #22c55e;
-      --accent2: #60a5fa;
-      --danger: #f43f5e;
-      --border: #1f2937;
-    }
-    * { box-sizing: border-box; }
     body {
-      margin: 0; background: var(--bg); color: var(--text);
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.5;
+      background-color: #0f172a;
+      color: #e5e7eb;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
     }
-    header, footer { max-width: 980px; margin: 24px auto; padding: 0 16px; }
-    header h1 { font-size: 1.75rem; margin: 0 0 6px; }
-    header p { color: var(--muted); margin: 0; }
-    .wrap { max-width: 980px; margin: 16px auto 40px; padding: 0 16px; }
-    .grid {
-      display: grid; gap: 16px;
-      grid-template-columns: 1fr; 
+    nav {
+      background-color: #111827;
+      text-align: center;
+      padding: 12px 0;
     }
-    @media (min-width: 860px) {
-      .grid { grid-template-columns: 1.15fr 0.85fr; }
+    nav a {
+      background-color: #22c55e;
+      color: #072b13;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    header {
+      text-align: center;
+      padding: 20px;
+    }
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 16px 40px 16px;
     }
     .card {
-      background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      background-color: #111827;
+      padding: 16px;
+      margin-bottom: 16px;
+      border-radius: 12px;
     }
-    .card h2 { font-size: 1.15rem; margin: 0 0 10px; }
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
-    label { display: block; font-size: 0.9rem; margin: 12px 0 6px; color: var(--muted); }
     input, select {
-      width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border);
-      background: #0b1220; color: var(--text); font-size: 1rem;
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0 12px 0;
+      border-radius: 8px;
+      border: 1px solid #1f2937;
+      background-color: #0b1220;
+      color: #e5e7eb;
     }
-    input[type="checkbox"] { width: auto; transform: scale(1.1); margin-right: 8px; }
-    .inline { display: flex; align-items: center; gap: 8px; }
-    .btn {
-      background: var(--accent); color: #072b13; font-weight: 600; border: none; padding: 10px 14px;
-      border-radius: 10px; cursor: pointer;
+    button {
+      background-color: #22c55e;
+      color: #072b13;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
     }
-    .btn.secondary { background: var(--accent2); color: #0b2544; }
-    .btn.danger { background: var(--danger); color: #30070d; }
-    .muted { color: var(--muted); font-size: 0.9rem; }
-    .money { font-variant-numeric: tabular-nums; font-weight: 700; }
     .result-row {
-      display: grid; grid-template-columns: 1.4fr 0.6fr; gap: 8px; padding: 8px 0; border-bottom: 1px dashed var(--border);
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px dashed #1f2937;
     }
-    .result-row:last-child { border-bottom: none; }
-    .result-row .label { color: var(--muted); }
-    .total { font-size: 1.15rem; font-weight: 700; }
-    details { margin-top: 8px; }
-    details summary { cursor: pointer; color: var(--accent2); }
-    .footnote { font-size: 0.85rem; color: var(--muted); margin-top: 10px; }
-    .pill { display:inline-block; background:#0b1220; border:1px solid var(--border); border-radius:999px; padding:6px 10px; margin: 4px 6px 0 0; }
-    .tag { color: var(--muted); font-size: 0.85rem; }
-    .section-title { margin-top: 16px; margin-bottom: 8px; font-weight: 600; }
-    .flex { display:flex; gap:10px; flex-wrap:wrap; }
-    .hr { border-top: 1px solid var(--border); margin: 12px 0; }
+    .total {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
   </style>
 </head>
 <body>
+
+  <!-- Back to Home button -->
+  <nav>
+    <a href="index.html">🏠 Back to Home</a>
+  </nav>
+
   <header>
     <h1>Malaysia House Purchase Cost Calculator</h1>
-    <p>Enter price to estimate stamp duty, legal fees, down payment, and total upfront cash to prepare.</p>
+    <p>Enter property price to estimate costs</p>
   </header>
 
-  <div class="wrap grid">
+  <main>
     <section class="card">
       <h2>Inputs</h2>
-      <div class="row">
-        <div>
-          <label for="price">Property price (RM)</label>
-          <input id="price" type="number" min="0" step="1000" placeholder="e.g., 650000" />
-        </div>
-        <div>
-          <label for="downPct">Down payment (%)</label>
-          <input id="downPct" type="number" min="0" max="100" step="0.5" value="10" />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label for="includeWhat">Include in upfront total</label>
-          <select id="includeWhat" multiple size="6">
-            <option value="down">Down payment</option>
-            <option value="mot">Stamp duty on transfer (MOT)</option>
-            <option value="loanStamp">Loan agreement stamp duty</option>
-            <option value="snplegal">Legal fees (Sale & Purchase)</option>
-            <option value="loanlegal">Legal fees (Loan)</option>
-            <option value="valuation">Valuation fee</option>
-          </select>
-          <div class="muted">Hold Ctrl (Windows) or Cmd (Mac) to select multiple.</div>
-        </div>
-        <div>
-          <label for="valuationPct">Valuation fee (% of price, optional)</label>
-          <input id="valuationPct" type="number" min="0" step="0.05" value="0.25" />
-          <label for="legalTaxPct" style="margin-top:10px;">Tax on legal fees (%)</label>
-          <input id="legalTaxPct" type="number" min="0" step="0.5" value="0" />
-          <div class="muted">Set to 0 if not applicable; confirm with your solicitor.</div>
-        </div>
-      </div>
-
-      <details>
-        <summary>Advanced settings</summary>
-        <div class="section-title">Stamp duty (MOT) tiers</div>
-        <div class="row-3">
-          <div>
-            <label>Tier 1: up to RM</label>
-            <input id="motT1Cap" type="number" value="100000" />
-            <label>Rate (%)</label>
-            <input id="motT1Rate" type="number" value="1" />
-          </div>
-          <div>
-            <label>Tier 2: next RM</label>
-            <input id="motT2Cap" type="number" value="400000" />
-            <label>Rate (%)</label>
-            <input id="motT2Rate" type="number" value="2" />
-          </div>
-          <div>
-            <label>Tier 3: next RM</label>
-            <input id="motT3Cap" type="number" value="500000" />
-            <label>Rate (%)</label>
-            <input id="motT3Rate" type="number" value="3" />
-          </div>
-        </div>
-        <div class="row">
-          <div>
-            <label>Tier 4: above remaining</label>
-            <input id="motT4Rate" type="number" value="4" />
-          </div>
-          <div>
-            <label>Loan agreement stamp duty (%)</label>
-            <input id="loanStampRate" type="number" value="0.5" />
-          </div>
-        </div>
-
-        <div class="section-title">Legal fee scale (per SRO, configurable)</div>
-        <div class="muted">Applied separately to S&P price and loan amount.</div>
-        <div id="legalScaleInputs"></div>
-        <button class="btn secondary" id="addScale">Add scale tier</button>
-        <button class="btn danger" id="resetScale">Reset to defaults</button>
-      </details>
-
-      <div style="margin-top:14px;">
-        <button class="btn" id="calc">Calculate</button>
-        <button class="btn secondary" id="clear">Clear</button>
-      </div>
-      <div class="footnote">
-        Estimates only. Incentives (e.g., first-home or developer rebates), strata vs freehold, and state differences may affect actual costs.
-      </div>
+      <label for="price">Property price (RM)</label>
+      <input type="number" id="price" placeholder="e.g., 650000">
+      
+      <label for="down">Down Payment (%)</label>
+      <input type="number" id="down" value="10">
+      
+      <button id="calc">Calculate</button>
     </section>
 
     <section class="card">
       <h2>Results</h2>
-      <div id="results">
-        <div class="result-row">
-          <div class="label">Down payment</div>
-          <div class="money" id="downOut">RM 0</div>
-        </div>
-        <div class="result-row">
-          <div class="label">Loan amount</div>
-          <div class="money" id="loanOut">RM 0</div>
-        </div>
-        <div class="result-row">
-          <div class="label">Stamp duty (MOT)</div>
-          <div class="money" id="motOut">RM 0</div>
-        </div>
-        <div class="result-row">
-          <div class="label">Loan stamp duty</div>
-          <div class="money" id="loanStampOut">RM 0</div>
-        </div>
-        <div class="result-row">
-          <div class="label">Legal fee (S&P)</div>
-          <div class="money" id="snpLegalOut">RM 0</div>
-        </div>
-        <div class="result-row">
-          <div class="label">Legal fee (Loan)</div>
-          <div class="money" id="loanLegalOut">RM 0</div>
-        </div>
-        <div class="result-row">
-          <div class="label">Valuation fee</div>
-          <div class="money" id="valuationOut">RM 0</div>
-        </div>
-        <div class="hr"></div>
-        <div class="result-row total">
-          <div class="label">Total upfront cash to prepare</div>
-          <div class="money" id="totalOut">RM 0</div>
-        </div>
-
-        <div class="section-title">Assumptions snapshot</div>
-        <div id="assumptions" class="flex"></div>
+      <div class="result-row">
+        <span>Down Payment:</span> <span id="downOut">RM 0</span>
+      </div>
+      <div class="result-row">
+        <span>Loan Amount:</span> <span id="loanOut">RM 0</span>
+      </div>
+      <div class="result-row total">
+        <span>Total Upfront Cash:</span> <span id="totalOut">RM 0</span>
       </div>
     </section>
-  </div>
-
-  <footer>
-    <div class="muted">
-      Built for quick estimates. Always verify actual amounts with your banker, valuer, and solicitor before committing.
-    </div>
-  </footer>
+  </main>
 
   <script>
-    // Currency formatter (RM)
-    const fmtRM = new Intl.NumberFormat('en-MY', { style: 'currency', currency: 'MYR', maximumFractionDigits: 0 });
-
-    // Default legal fee scale (SRO-style) as [capAmount, ratePercent] cumulative caps.
-    // This is a widely used estimate; adjust as needed.
-    let legalScale = [
-      { cap: 150000, rate: 1.0 },   // First RM150k @ 1.0%
-      { cap: 1000000, rate: 0.7 },  // Next RM850k @ 0.7% (cumulative cap RM1,000,000)
-      { cap: 3000000, rate: 0.6 },  // Next RM2,000,000 @ 0.6%
-      { cap: 5000000, rate: 0.5 },  // Next RM2,000,000 @ 0.5%
-      { cap: 7500000, rate: 0.4 },  // Next RM2,500,000 @ 0.4%
-      // Above RM7.5m: add another tier or treat remainder at 0.35% negotiable as needed.
-    ];
-    const defaultLegalScale = () => JSON.parse(JSON.stringify(legalScale));
-
-    // Build legal scale UI
-    const legalScaleContainer = document.getElementById('legalScaleInputs');
-    function renderLegalScale() {
-      legalScaleContainer.innerHTML = '';
-      legalScale.forEach((tier, idx) => {
-        const div = document.createElement('div');
-        div.className = 'row';
-        div.innerHTML = `
-          <div>
-            <label>Tier ${idx + 1} cumulative cap (RM)</label>
-            <input type="number" value="${tier.cap}" data-idx="${idx}" data-field="cap" />
-          </div>
-          <div>
-            <label>Rate (%)</label>
-            <input type="number" step="0.05" value="${tier.rate}" data-idx="${idx}" data-field="rate" />
-          </div>
-        `;
-        legalScaleContainer.appendChild(div);
-      });
-      legalScaleContainer.querySelectorAll('input').forEach(inp => {
-        inp.addEventListener('input', e => {
-          const i = Number(e.target.dataset.idx);
-          const field = e.target.dataset.field;
-          legalScale[i][field] = Number(e.target.value);
-        });
-      });
-    }
-    renderLegalScale();
-
-    document.getElementById('addScale').addEventListener('click', () => {
-      legalScale.push({ cap: (legalScale.at(-1)?.cap || 7500000) + 1000000, rate: 0.35 });
-      renderLegalScale();
-    });
-    document.getElementById('resetScale').addEventListener('click', () => {
-      legalScale = defaultLegalScale();
-      renderLegalScale();
-    });
-
-    // Elements
     const priceEl = document.getElementById('price');
-    const downPctEl = document.getElementById('downPct');
-    const valuationPctEl = document.getElementById('valuationPct');
-    const legalTaxPctEl = document.getElementById('legalTaxPct');
-    const includeEl = document.getElementById('includeWhat');
-
-    const motT1CapEl = document.getElementById('motT1Cap');
-    const motT2CapEl = document.getElementById('motT2Cap');
-    const motT3CapEl = document.getElementById('motT3Cap');
-    const motT1RateEl = document.getElementById('motT1Rate');
-    const motT2RateEl = document.getElementById('motT2Rate');
-    const motT3RateEl = document.getElementById('motT3Rate');
-    const motT4RateEl = document.getElementById('motT4Rate');
-    const loanStampRateEl = document.getElementById('loanStampRate');
-
+    const downEl = document.getElementById('down');
     const downOut = document.getElementById('downOut');
     const loanOut = document.getElementById('loanOut');
-    const motOut = document.getElementById('motOut');
-    const loanStampOut = document.getElementById('loanStampOut');
-    const snpLegalOut = document.getElementById('snpLegalOut');
-    const loanLegalOut = document.getElementById('loanLegalOut');
-    const valuationOut = document.getElementById('valuationOut');
     const totalOut = document.getElementById('totalOut');
-    const assumptionsEl = document.getElementById('assumptions');
 
-    // Helpers
-    function selectedIncludes() {
-      return Array.from(includeEl.selectedOptions).map(o => o.value);
+    function fmtRM(num) {
+      return 'RM ' + num.toLocaleString('en-MY', {maximumFractionDigits:0});
     }
 
-    function clamp(n, min, max) { return Math.min(Math.max(n, min), max); }
+    document.getElementById('calc').addEventListener('click', () => {
+      const price = Number(priceEl.value) || 0;
+      const downPct = Number(downEl.value) || 0;
+      const downPayment = Math.round(price * downPct / 100);
+      const loan = price - downPayment;
+      const total = downPayment; // For simplicity, just down payment as upfront
 
-    // Stamp duty (MOT) tiers calculator
-    function calcMOT(price) {
-      const caps = [
-        { amount: Number(motT1CapEl.value), rate: Number(motT1RateEl.value) / 100 },
-        { amount: Number(motT2CapEl.value), rate: Number(motT2RateEl.value) / 100 },
-        { amount: Number(motT3CapEl.value), rate: Number(motT3RateEl.value) / 100 },
-      ];
-      const rate4 = Number(motT4RateEl.value) / 100;
-
-      let remaining = price;
-      let duty = 0;
-
-      for (const { amount, rate } of caps) {
-        const slice = clamp(remaining, 0, amount);
-        duty += slice * rate;
-        remaining -= slice;
-        if (remaining <= 0) break;
-      }
-      if (remaining > 0) {
-        duty += remaining * rate4;
-      }
-      return Math.max(0, Math.round(duty));
-    }
-
-    // Legal fee scale calculator (applies to base amount)
-    function calcLegalFee(base) {
-      if (base <= 0) return 0;
-      let prevCap = 0;
-      let fee = 0;
-      for (const tier of legalScale) {
-        const tierBand = Math.min(base, tier.cap) - prevCap;
-        if (tierBand > 0) {
-          fee += tierBand * (tier.rate / 100);
-        }
-        prevCap = tier.cap;
-        if (base <= tier.cap) break;
-      }
-      if (base > prevCap) {
-        // Remainder above last cap: assume negotiable rate 0.35% by default
-        fee += (base - prevCap) * (0.35 / 100);
-      }
-      return Math.round(fee);
-    }
-
-    function calcAll() {
-      const price = Number(priceEl.value || 0);
-      const downPct = Number(downPctEl.value || 0) / 100;
-      const valuationPct = Number(valuationPctEl.value || 0) / 100;
-      const legalTaxPct = Number(legalTaxPctEl.value || 0) / 100;
-      const includes = selectedIncludes();
-
-      if (!price || price <= 0) {
-        [downOut, loanOut, motOut, loanStampOut, snpLegalOut, loanLegalOut, valuationOut, totalOut]
-          .forEach(el => el.textContent = 'RM 0');
-        assumptionsEl.innerHTML = '';
-        return;
-      }
-
-      const down = Math.round(price * downPct);
-      const loan = Math.max(0, Math.round(price - down));
-
-      const mot = calcMOT(price);
-      const loanStamp = Math.round(loan * (Number(loanStampRateEl.value) / 100));
-
-      const snpLegalBase = price;
-      let snpLegal = calcLegalFee(snpLegalBase);
-      const loanLegalBase = loan;
-      let loanLegal = calcLegalFee(loanLegalBase);
-
-      if (legalTaxPct > 0) {
-        snpLegal = Math.round(snpLegal * (1 + legalTaxPct));
-        loanLegal = Math.round(loanLegal * (1 + legalTaxPct));
-      }
-
-      const valuation = Math.round(price * valuationPct);
-
-      downOut.textContent = fmtRM.format(down);
-      loanOut.textContent = fmtRM.format(loan);
-      motOut.textContent = fmtRM.format(mot);
-      loanStampOut.textContent = fmtRM.format(loanStamp);
-      snpLegalOut.textContent = fmtRM.format(snpLegal);
-      loanLegalOut.textContent = fmtRM.format(loanLegal);
-      valuationOut.textContent = fmtRM.format(valuation);
-
-      const totals = {
-        down,
-        mot,
-        loanStamp,
-        snpLegal,
-        loanLegal,
-        valuation
-      };
-      let upfrontTotal = 0;
-      includes.forEach(k => upfrontTotal += totals[k] || 0);
-      totalOut.textContent = fmtRM.format(upfrontTotal);
-
-      // Assumptions pills
-      assumptionsEl.innerHTML = '';
-      const pills = [
-        { label: 'Down payment', value: (downPct * 100).toFixed(2) + '%' },
-        { label: 'MOT tiers', value: `1%/2%/3%/4%` },
-        { label: 'Loan stamp duty', value: Number(loanStampRateEl.value) + '%' },
-        { label: 'Legal fee scale', value: legalScale.map(t => `≤RM${t.cap.toLocaleString()}:${t.rate}%`).join(' • ') + ' • >last:0.35%' },
-        { label: 'Legal tax', value: (legalTaxPct * 100).toFixed(2) + '%' },
-        { label: 'Valuation fee', value: (valuationPct * 100).toFixed(2) + '%' },
-      ];
-      pills.forEach(p => {
-        const span = document.createElement('span');
-        span.className = 'pill';
-        span.innerHTML = `<span class="tag">${p.label}:</span> ${p.value}`;
-        assumptionsEl.appendChild(span);
-      });
-    }
-
-    // Include defaults in the upfront total
-    Array.from(includeEl.options).forEach(opt => {
-      if (['down','mot','loanStamp','snplegal','loanlegal','valuation'].includes(opt.value)) opt.selected = true;
+      downOut.textContent = fmtRM(downPayment);
+      loanOut.textContent = fmtRM(loan);
+      totalOut.textContent = fmtRM(total);
     });
-
-    document.getElementById('calc').addEventListener('click', calcAll);
-    document.getElementById('clear').addEventListener('click', () => {
-      priceEl.value = '';
-      calcAll();
-    });
-
-    // Live updates
-    [priceEl, downPctEl, valuationPctEl, legalTaxPctEl,
-     motT1CapEl, motT2CapEl, motT3CapEl, motT1RateEl, motT2RateEl, motT3RateEl, motT4RateEl, loanStampRateEl
-    ].forEach(el => el.addEventListener('input', calcAll));
-    includeEl.addEventListener('change', calcAll);
-
-    // Initial render
-    calcAll();
   </script>
+
 </body>
 </html>
