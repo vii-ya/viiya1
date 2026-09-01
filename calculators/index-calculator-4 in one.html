@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CalcHub - All-in-One Calculators</title>
+<meta name="description" content="Free and premium calculators for loans, BMI, construction, currency and more.">
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#687386;--primary:#4f46e5;--primary2:#7c3aed;--border:#e5e7eb;--success:#059669;--danger:#dc2626;--shadow:0 12px 35px rgba(31,41,55,.09)}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+button,input,select{font:inherit}
+button{cursor:pointer}
+header{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav{max-width:1180px;margin:auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px}
+.logo{font-size:22px;font-weight:900;color:var(--primary)}
+.logo span{color:var(--text)}
+.navlinks{display:flex;gap:8px;flex-wrap:wrap}
+.navlinks button{border:0;background:transparent;padding:9px 12px;border-radius:10px;color:var(--muted);font-weight:700}
+.navlinks button:hover{background:#eef2ff;color:var(--primary)}
+.hero{background:linear-gradient(135deg,#111827,#312e81 55%,#6d28d9);color:#fff;padding:65px 20px}
+.hero-inner{max-width:1180px;margin:auto}
+.badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:7px 11px;border-radius:999px;font-size:13px;font-weight:800}
+h1{font-size:clamp(34px,6vw,62px);line-height:1.02;margin:17px 0 14px;max-width:850px}
+.hero p{font-size:18px;color:#dbeafe;max-width:700px;line-height:1.6}
+main{max-width:1180px;margin:auto;padding:35px 20px 70px}
+.section-title{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:10px 0 18px}
+.section-title h2{margin:0;font-size:27px}
+.section-title p{margin:0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+.calc-card{transition:.2s;position:relative}
+.calc-card:hover{transform:translateY(-3px)}
+.icon{font-size:30px}
+.calc-card h3{margin:10px 0 7px}
+.calc-card p{color:var(--muted);line-height:1.5;min-height:46px}
+.tag{font-size:11px;font-weight:900;padding:5px 8px;border-radius:999px;background:#ecfdf5;color:var(--success)}
+.tag.premium{background:#fff7ed;color:#c2410c}
+.open-btn,.primary{border:0;background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;padding:11px 15px;border-radius:11px;font-weight:800}
+.secondary{border:1px solid var(--border);background:#fff;color:var(--text);padding:10px 14px;border-radius:11px;font-weight:800}
+.actions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.calc-panel{display:none;margin-top:22px}
+.calc-panel.active{display:block}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px}
+.panel-head h2{margin:0}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.field label{display:block;font-weight:800;font-size:13px;margin-bottom:7px}
+.field input,.field select{width:100%;padding:12px 13px;border:1px solid #d7dce5;border-radius:10px;background:#fff;outline:none}
+.field input:focus,.field select:focus{border-color:var(--primary);box-shadow:0 0 0 3px #eef2ff}
+.result{margin-top:18px;padding:18px;border-radius:14px;background:#f8fafc;border:1px solid var(--border)}
+.result .big{font-size:29px;font-weight:900;margin:5px 0}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.stat{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px}
+.stat small{color:var(--muted);display:block}.stat strong{display:block;margin-top:4px}
+.lock{position:relative;overflow:hidden}
+.lockbox{text-align:center;padding:35px 20px;border:2px dashed #c4b5fd;border-radius:16px;background:#faf5ff}
+.lockbox .lockicon{font-size:42px}
+.lockbox h3{margin:8px 0}
+.lockbox p{color:var(--muted);max-width:520px;margin:8px auto 18px}
+.notice{padding:12px 14px;background:#fffbeb;border:1px solid #fde68a;color:#92400e;border-radius:11px;font-size:13px;margin-top:12px}
+footer{background:#111827;color:#cbd5e1;padding:30px 20px;text-align:center}
+footer strong{color:#fff}
+.small{font-size:12px;color:var(--muted)}
+.hidden{display:none!important}
+#toast{position:fixed;right:18px;bottom:18px;background:#111827;color:#fff;padding:12px 16px;border-radius:10px;display:none;z-index:50}
+@media(max-width:850px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.navlinks{display:none}.grid,.formgrid,.result-grid{grid-template-columns:1fr}.hero{padding:45px 20px}main{padding-top:25px}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo">Calc<span>Hub</span></div>
+    <div class="navlinks">
+      <button onclick="scrollToId('free')">Free</button>
+      <button onclick="scrollToId('premium')">Premium</button>
+      <button onclick="scrollToId('about')">About</button>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="badge">ALL-IN-ONE CALCULATOR WEBSITE</span>
+    <h1>Useful calculators. Simple answers.</h1>
+    <p>Loan, BMI, construction, currency and everyday calculations in one fast, mobile-friendly website.</p>
+  </div>
+</section>
+
+<main>
+  <section id="free">
+    <div class="section-title">
+      <div><h2>Free calculators</h2><p>Ready for visitors to use.</p></div>
+    </div>
+    <div class="grid">
+      <article class="card calc-card"><div class="icon">🧮</div><span class="tag">FREE</span><h3>Basic Calculator</h3><p>Everyday arithmetic with a clean calculator interface.</p><button class="open-btn" onclick="openCalc('basic')">Open calculator</button></article>
+      <article class="card calc-card"><div class="icon">⚖️</div><span class="tag">FREE</span><h3>BMI Calculator</h3><p>Calculate BMI from height and weight and see the category.</p><button class="open-btn" onclick="openCalc('bmi')">Open calculator</button></article>
+      <article class="card calc-card"><div class="icon">💱</div><span class="tag">FREE</span><h3>Currency Calculator</h3><p>Convert currencies using a manually entered exchange rate.</p><button class="open-btn" onclick="openCalc('currency')">Open calculator</button></article>
+      <article class="card calc-card"><div class="icon">📐</div><span class="tag">FREE</span><h3>Construction Calculator</h3><p>Estimate area, volume and material quantities for simple projects.</p><button class="open-btn" onclick="openCalc('construction')">Open calculator</button></article>
+    </div>
+  </section>
+
+  <section id="premium" style="margin-top:42px">
+    <div class="section-title">
+      <div><h2>Premium calculators 🔒</h2><p>Show these as paid products on your site.</p></div>
+    </div>
+    <div class="grid">
+      <article class="card calc-card"><div class="icon">🏠</div><span class="tag premium">PREMIUM</span><h3>Advanced Loan Calculator</h3><p>Loan payment, total interest, amortization and affordability tools.</p><button class="open-btn" onclick="openCalc('loan')">View premium</button></article>
+      <article class="card calc-card"><div class="icon">🧱</div><span class="tag premium">PREMIUM</span><h3>Construction Pro</h3><p>More detailed estimating tools for materials and project costs.</p><button class="open-btn" onclick="openCalc('constructionpro')">View premium</button></article>
+      <article class="card calc-card"><div class="icon">📈</div><span class="tag premium">PREMIUM</span><h3>Business & Profit</h3><p>Revenue, margin, markup, break-even and profit analysis.</p><button class="open-btn" onclick="openCalc('business')">View premium</button></article>
+    </div>
+  </section>
+
+  <div id="calculatorArea"></div>
+
+  <section id="about" class="card" style="margin-top:35px">
+    <h2>About CalcHub</h2>
+    <p style="color:var(--muted);line-height:1.7">This is a single-file calculator website. You can upload this <b>index.html</b> directly to a GitHub Pages repository. The premium buttons are currently demonstration locks; secure paid access requires connecting authentication and payment to a backend/service.</p>
+    <div class="notice">Important: Do not put secret API keys, payment secrets, passwords or real subscription verification logic inside this HTML file.</div>
+  </section>
+</main>
+
+<footer><strong>CalcHub</strong> — calculators for everyday decisions.</footer>
+<div id="toast"></div>
+
+<script>
+const area=document.getElementById('calculatorArea');
+
+function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+function openCalc(type){
+  const premium=['loan','constructionpro','business'].includes(type);
+  let html=`<section class="card calc-panel active" id="panel">
+    <div class="panel-head"><h2>${titleFor(type)}</h2><button class="secondary" onclick="closeCalc()">Close</button></div>`;
+  if(premium){
+    html+=`<div class="lockbox"><div class="lockicon">🔒</div><h3>Premium calculator</h3><p>This calculator is marked as premium in this starter version. Visitors can see the product, but the calculation is locked until you connect your payment/login system.</p><button class="primary" onclick="toast('Premium checkout is not connected yet.')">Unlock Premium</button><div class="small" style="margin-top:12px">Demo lock only — not secure payment protection.</div></div>`;
+  }else{
+    if(type==='basic') html+=basicCalc();
+    if(type==='bmi') html+=bmiCalc();
+    if(type==='currency') html+=currencyCalc();
+    if(type==='construction') html+=constructionCalc();
+  }
+  html+='</section>';
+  area.innerHTML=html;
+  area.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function titleFor(t){return {basic:'🧮 Basic Calculator',bmi:'⚖️ BMI Calculator',currency:'💱 Currency Calculator',construction:'📐 Construction Calculator',loan:'🏠 Advanced Loan Calculator',constructionpro:'🧱 Construction Pro',business:'📈 Business & Profit'}[t];}
+function closeCalc(){area.innerHTML='';scrollToId('free');}
+
+function basicCalc(){return `<div style="max-width:430px;margin:auto">
+<input id="basicDisplay" value="0" readonly style="width:100%;padding:18px;font-size:30px;text-align:right;border:1px solid var(--border);border-radius:12px;margin-bottom:10px">
+<div class="grid" style="grid-template-columns:repeat(4,1fr);gap:8px">
+${['7','8','9','÷','4','5','6','×','1','2','3','−','0','.','C','+'].map(x=>`<button class="secondary" style="padding:16px" onclick="pressBasic('${x}')">${x}</button>`).join('')}
+<button class="primary" style="grid-column:span 4;padding:16px" onclick="pressBasic('=')">=</button>
+</div></div>`}
+let basicExpr='';
+function pressBasic(x){
+ const d=document.getElementById('basicDisplay'); if(!d)return;
+ if(x==='C'){basicExpr='';d.value='0';return}
+ if(x==='='){try{let e=basicExpr.replaceAll('÷','/').replaceAll('×','*').replaceAll('−','-');if(!/^[0-9+*/().% -]+$/.test(e))throw 0;let r=Function('return '+e)();basicExpr=String(r);d.value=String(r)}catch{d.value='Error';basicExpr=''}return}
+ basicExpr+=x;d.value=basicExpr;
+}
+
+function bmiCalc(){return `<div class="formgrid">
+<div class="field"><label>Height (cm)</label><input id="bmiH" type="number" min="1" placeholder="170"></div>
+<div class="field"><label>Weight (kg)</label><input id="bmiW" type="number" min="1" placeholder="70"></div>
+</div><div class="actions" style="margin-top:15px"><button class="primary" onclick="calcBMI()">Calculate BMI</button></div><div id="bmiResult"></div>`}
+function calcBMI(){
+ let h=+document.getElementById('bmiH').value,w=+document.getElementById('bmiW').value;
+ if(!h||!w){toast('Enter height and weight');return}
+ let bmi=w/((h/100)**2),cat=bmi<18.5?'Underweight':bmi<25?'Healthy range':bmi<30?'Overweight':'Obesity';
+ document.getElementById('bmiResult').innerHTML=`<div class="result"><small>BMI</small><div class="big">${bmi.toFixed(1)}</div><strong>${cat}</strong><p class="small">BMI is a screening measure and is not a medical diagnosis.</p></div>`;
+}
+
+function currencyCalc(){return `<div class="formgrid">
+<div class="field"><label>Amount</label><input id="curAmount" type="number" value="100"></div>
+<div class="field"><label>Exchange rate (1 source = target)</label><input id="curRate" type="number" value="4.00" step="0.0001"></div>
+<div class="field"><label>From</label><input id="curFrom" value="USD"></div>
+<div class="field"><label>To</label><input id="curTo" value="MYR"></div>
+</div><div class="actions" style="margin-top:15px"><button class="primary" onclick="calcCurrency()">Convert</button></div><div id="curResult"></div>
+<div class="notice">For live exchange rates, connect this calculator to a currency-rate API. This one-file version uses the rate you enter.</div>`}
+function calcCurrency(){
+ let a=+document.getElementById('curAmount').value,r=+document.getElementById('curRate').value;
+ if(!a||!r){toast('Enter amount and exchange rate');return}
+ let f=document.getElementById('curFrom').value.toUpperCase(),t=document.getElementById('curTo').value.toUpperCase();
+ document.getElementById('curResult').innerHTML=`<div class="result"><small>Result</small><div class="big">${(a*r).toLocaleString(undefined,{maximumFractionDigits:2})} ${t}</div><strong>${a.toLocaleString()} ${f} × ${r}</strong></div>`;
+}
+
+function constructionCalc(){return `<div class="formgrid">
+<div class="field"><label>Length (m)</label><input id="conL" type="number" step="0.01" placeholder="10"></div>
+<div class="field"><label>Width (m)</label><input id="conW" type="number" step="0.01" placeholder="5"></div>
+<div class="field"><label>Depth / thickness (m)</label><input id="conD" type="number" step="0.01" value="0.10"></div>
+<div class="field"><label>Material price per m³</label><input id="conP" type="number" step="0.01" value="300"></div>
+</div><div class="actions" style="margin-top:15px"><button class="primary" onclick="calcConstruction()">Calculate</button></div><div id="conResult"></div>`}
+function calcConstruction(){
+ let l=+conL.value,w=+conW.value,d=+conD.value,p=+conP.value;
+ if(!l||!w||!d){toast('Enter dimensions');return}
+ let area=l*w,vol=area*d,cost=vol*(p||0);
+ conResult.innerHTML=`<div class="result"><div class="result-grid"><div class="stat"><small>Area</small><strong>${area.toFixed(2)} m²</strong></div><div class="stat"><small>Volume</small><strong>${vol.toFixed(3)} m³</strong></div><div class="stat"><small>Estimated cost</small><strong>${cost.toFixed(2)}</strong></div></div></div>`;
+}
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(()=>t.style.display='none',2500)}
+</script>
+</body>
+</html>
