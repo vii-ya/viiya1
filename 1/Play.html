@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>开源免费趣味百宝箱</title>
+    <style>
+        :root { --primary: #9e2a2b; --bg: #f7f5f0; }
+        body { background: var(--bg); font-family: system-ui, sans-serif; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
+        .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; }
+        .tab-btn { background: #fff; border: 2px solid var(--primary); color: var(--primary); padding: 10px 20px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 14px; transition: all 0.3s; }
+        .tab-btn.active, .tab-btn:hover { background: var(--primary); color: #fff; }
+        .card { background: #fff; border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.05); width: 100%; max-width: 400px; padding: 25px; box-sizing: border-box; display: none; text-align: center; min-height: 300px; border: 3px solid var(--primary); position: relative; }
+        .card.active { display: block; }
+        h2 { color: var(--primary); margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+        button.action-btn { background: var(--primary); color: #fff; border: none; padding: 12px 24px; border-radius: 6px; font-size: 16px; cursor: pointer; font-weight: bold; margin-top: 15px; }
+        /* 木鱼动效 */
+        .muyu-node { font-size: 80px; cursor: pointer; user-select: none; transition: transform 0.1s; margin: 20px 0; }
+        .muyu-node:active { transform: scale(0.9); }
+        .gongde { color: var(--primary); font-weight: bold; font-size: 20px; height: 30px; }
+        select, input { padding: 10px; width: 80%; border: 1px solid #ccc; border-radius: 6px; font-size: 16px; margin: 10px 0; }
+        .result-box { margin-top: 20px; padding: 15px; background: #faf8f5; border-radius: 6px; text-align: left; font-size: 14px; line-height: 1.6; color: #444; border-left: 4px solid var(--primary); }
+    </style>
+</head>
+<body>
+
+    <h1 style="color: var(--primary); letter-spacing: 2px;">🌌 开源趣味工具箱</h1>
+
+    <!-- 导航标签 -->
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('qiuqian')">🔮 观音求签</button>
+        <button class="tab-btn" onclick="switchTab('xingzuo')">✨ 星座运势</button>
+        <button class="tab-btn" onclick="switchTab('yansuan')">🔢 命理演算</button>
+        <button class="tab-btn" onclick="switchTab('muyu')">🐟 电子木鱼</button>
+    </div>
+
+    <!-- 1. 求签卡片 -->
+    <div id="qiuqian" class="card active">
+        <h2>观音灵签</h2>
+        <p>闭眼默念心中所求之事，点击下方按钮虔诚抽签。</p>
+        <button class="action-btn" onclick="drawSign()">虔诚摇签</button>
+        <div id="qianResult" class="result-box" style="display:none;"></div>
+    </div>
+
+    <!-- 2. 星座卡片 -->
+    <div id="xingzuo" class="card">
+        <h2>星座今日运势</h2>
+        <select id="xzSelect" onchange="getXingzuo()">
+            <option value="白羊座">白羊座 (3.21-4.19)</option>
+            <option value="金牛座">金牛座 (4.20-5.20)</option>
+            <option value="双子座">双子座 (5.21-6.21)</option>
+            <option value="巨蟹座">巨蟹座 (6.22-7.22)</option>
+            <option value="狮子座">狮子座 (7.23-8.22)</option>
+            <option value="处女座">处女座 (8.23-9.22)</option>
+            <option value="天秤座">天秤座 (9.23-10.23)</option>
+            <option value="天蝎座">天蝎座 (10.24-11.22)</option>
+            <option value="射手座">射手座 (11.23-12.21)</option>
+            <option value="摩羯座">摩羯座 (12.22-1.19)</option>
+            <option value="水瓶座">水瓶座 (1.20-2.18)</option>
+            <option value="双鱼座">双鱼座 (2.19-3.20)</option>
+        </select>
+        <div id="xzResult" class="result-box">选择星座查看今日运势...</div>
+    </div>
+
+    <!-- 3. 演算卡片 -->
+    <div id="yansuan" class="card">
+        <h2>生命数字演算</h2>
+        <p>输入你的出生年月日，演算你的“生命核心数字”与天赋：</p>
+        <input type="date" id="birthInput" value="2000-01-01">
+        <br>
+        <button class="action-btn" onclick="calcLifeNum()">开始演算</button>
+        <div id="ysResult" class="result-box" style="display:none;"></div>
+    </div>
+
+    <!-- 4. 木鱼游戏 -->
+    <div id="muyu" class="card">
+        <h2>赛博电子木鱼</h2>
+        <div id="gongdeText" class="gongde"></div>
+        <div class="muyu-node" onclick="tapMuyu()">🐟</div>
+        <p style="color: #666; font-size: 13px;">点击木鱼，静心解压，广结善缘</p>
+    </div>
+
+<script>
+    // 切换卡片逻辑
+    function switchTab(tabId) {
+        document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        event.target.classList.add('active');
+        if(tabId === 'xingzuo') getXingzuo();
+    }
+
+    // 1. 求签数据与逻辑
+    const qianPool = [
+        { title: "第一签 【上签】", poem: "开天辟地作良缘，吉日良时万物全。", exp: "所求皆遂，出入皆吉，诸事顺遂。" },
+        { title: "第十五签 【中签】", poem: "行人纸上说长短，好事临时却不长。", exp: "虚名虚利，凡事谨慎，不可急躁进取。" },
+        { title: "上上大吉签", poem: "万里清风申白日，千家灯火读书时。", exp: "学业大进，官运亨通，求财得财，婚姻美满。" }
+    ];
+    function drawSign() {
+        const box = document.getElementById('qianResult');
+        box.style.display = 'block';
+        box.innerHTML = "正在虔诚摇签，请稍候...";
+        setTimeout(() => {
+            const qian = qianPool[Math.floor(Math.random() * qianPool.length)];
+            box.innerHTML = `<strong>${qian.title}</strong><br><br><em>签诗：${qian.poem}</em><br><br><strong>解签：</strong>${qian.exp}`;
+        }, 800);
+    }
+
+    // 2. 星座逻辑 (根据日期/随机种子生成今日固定运势)
+    function getXingzuo() {
+        const xz = document.getElementById('xzSelect').value;
+        const index = xz.charCodeAt(0) + new Date().getDate(); // 保证每天运势不同，但当天内不变
+        const luckyNum = (index % 9) + 1;
+        const indexStar = (index % 3) + 3; // 3-5星
+        const textPool = ["今天运势极佳，适合去执行拖延已久的计划，会有贵人相助。", "今日宜静不宜动，财运平平，注意控制消费支出。", "思维活跃的一天，适合学习新技能或与朋友聚会交流。"];
+        
+        document.getElementById('xzResult').innerHTML = `
+            <strong>【${xz}】今日运势</strong><br>
+            综合指数：${"⭐".repeat(indexStar)}<br>
+            幸运数字：${luckyNum}<br>
+            <strong>运势简评：</strong>${textPool[index % textPool.length]}
+        `;
+    }
+
+    // 3. 命理演算逻辑（生命灵数）
+    function calcLifeNum() {
+        const birth = document.getElementById('birthInput').value;
+        if(!birth) return;
+        const digits = birth.replace(/-/g, '').split('').map(Number);
+        let sum = digits.reduce((a, b) => a + b, 0);
+        while (sum > 9) { // 缩减到个位数
+            sum = String(sum).split('').map(Number).reduce((a, b) => a + b, 0);
+        }
+        const desc = [
+            "",
+            "<strong>1号 独创星（开拓者）：</strong> 独立、自信、具有极强的领导力，但偶尔容易自我中心。",
+            "<strong>2号 沟通星（合作者）：</strong> 敏感、温和、善于协调人际关系，是天生的外交家。",
+            "<strong>3号 创意星（表达者）：</strong> 充满艺术细胞、热情幽默，沟通能力极强，需要注意持续力。",
+            "<strong>4号 务实星（建设者）：</strong> 沉稳、理性、注重安全感与条理，是非常可靠的基石型人才。"
+        ];
+        const resBox = document.getElementById('ysResult');
+        resBox.style.display = 'block';
+        resBox.innerHTML = `<strong>你的生命灵数是：${sum}</strong><br><br>${desc[sum % 5 || 1]}`;
+    }
+
+    // 4. 电子木鱼逻辑
+    let count = 0;
+    function tapMuyu() {
+        count++;
+        const txt = document.getElementById('gongdeText');
+        txt.innerText = `功德 +1 (当前总功德: ${count})`;
+        // 简易文字浮现动画效果
+        const anim = document.createElement('div');
+        anim.innerText = "功德+1";
+        anim.style.position = 'absolute';
+        anim.style.top = '100px';
+        anim.style.left = '50%';
+        anim.style.transform = 'translateX(-50%)';
+        anim.style.color = 'var(--primary)';
+        anim.style.fontWeight = 'bold';
+        anim.style.opacity = '1';
+        anim.style.transition = 'all 0.5s';
+        document.getElementById('muyu').appendChild(anim);
+        setTimeout(() => {
+            anim.style.top = '50px';
+            anim.style.opacity = '0';
+        }, 50);
+        setTimeout(() => anim.remove(), 550);
+    }
+</script>
+</body>
+</html>
