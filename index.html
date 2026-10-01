@@ -1,80 +1,477 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>IVY Website</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IVY • Future Hub</title>
+
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    * {
+      box-sizing: border-box;
       margin: 0;
-      background: #f4f6f7;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #050816;
+      --panel: rgba(15, 23, 42, 0.65);
+      --border: rgba(255, 255, 255, 0.12);
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --cyan: #00eaff;
+      --purple: #8b5cf6;
+      --pink: #ec4899;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(0, 234, 255, 0.12), transparent 30%),
+        radial-gradient(circle at 90% 10%, rgba(139, 92, 246, 0.16), transparent 30%),
+        radial-gradient(circle at 50% 100%, rgba(236, 72, 153, 0.10), transparent 35%),
+        var(--bg);
+      overflow-x: hidden;
+    }
+
+    /* Animated grid */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 45px 45px;
+      mask-image: linear-gradient(to bottom, black, transparent);
+    }
+
+    /* Glowing orbs */
+    .orb {
+      position: fixed;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.35;
+      pointer-events: none;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .orb.one {
+      background: var(--cyan);
+      top: 10%;
+      left: -100px;
+    }
+
+    .orb.two {
+      background: var(--purple);
+      right: -100px;
+      top: 40%;
+      animation-delay: -3s;
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-40px);
+      }
     }
 
     header {
-      background: #2c3e50;
-      padding: 15px;
+      position: relative;
+      padding: 55px 20px 35px;
       text-align: center;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 78px;
+      height: 78px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(0, 234, 255, 0.5);
+      border-radius: 22px;
+      background: rgba(0, 234, 255, 0.06);
+      box-shadow:
+        0 0 30px rgba(0, 234, 255, 0.25),
+        inset 0 0 25px rgba(0, 234, 255, 0.05);
+      font-size: 34px;
+      font-weight: bold;
+      color: var(--cyan);
     }
 
     header h1 {
-      color: #ecf0f1;
-      margin: 0;
+      font-size: clamp(38px, 7vw, 72px);
+      letter-spacing: 8px;
+      text-transform: uppercase;
+      background: linear-gradient(
+        90deg,
+        #ffffff,
+        var(--cyan),
+        #ffffff,
+        var(--purple)
+      );
+      background-size: 300% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 5s linear infinite;
+    }
+
+    @keyframes shine {
+      to {
+        background-position: 300% center;
+      }
+    }
+
+    header p {
+      margin-top: 12px;
+      color: var(--muted);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-size: 12px;
     }
 
     nav {
-      background: #34495e;
+      position: sticky;
+      top: 15px;
+      z-index: 100;
+      width: min(1100px, calc(100% - 30px));
+      margin: 0 auto;
       padding: 12px;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      background: rgba(8, 15, 32, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
     }
 
     nav a {
-      color: #ecf0f1;
+      position: relative;
+      color: #cbd5e1;
       text-decoration: none;
-      margin: 0 18px;
+      padding: 11px 15px;
+      border-radius: 12px;
+      font-size: 14px;
       font-weight: bold;
-      font-size: 16px;
+      transition: 0.3s ease;
+      white-space: nowrap;
     }
 
     nav a:hover {
-      text-decoration: underline;
+      color: white;
+      background: rgba(0, 234, 255, 0.10);
+      box-shadow:
+        0 0 20px rgba(0, 234, 255, 0.12),
+        inset 0 0 15px rgba(0, 234, 255, 0.05);
+      transform: translateY(-2px);
     }
 
     main {
-      padding: 40px;
+      width: min(1100px, calc(100% - 30px));
+      margin: auto;
+      padding: 80px 0;
+    }
+
+    .hero {
       text-align: center;
+      margin-bottom: 60px;
     }
 
-    main h2 {
-      font-size: 28px;
-      margin-bottom: 10px;
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      margin-bottom: 25px;
+      border: 1px solid rgba(0, 234, 255, 0.25);
+      border-radius: 999px;
+      background: rgba(0, 234, 255, 0.06);
+      color: var(--cyan);
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
-    main p {
-      font-size: 18px;
-      color: #555;
+    .status::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+    }
+
+    .hero h2 {
+      font-size: clamp(35px, 6vw, 58px);
+      margin-bottom: 18px;
+      line-height: 1.05;
+    }
+
+    .hero h2 span {
+      color: var(--cyan);
+      text-shadow: 0 0 25px rgba(0, 234, 255, 0.4);
+    }
+
+    .hero p {
+      max-width: 650px;
+      margin: auto;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    /* Calculator cards */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      position: relative;
+      min-height: 190px;
+      padding: 28px;
+      overflow: hidden;
+      text-decoration: none;
+      color: white;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      transition: 0.35s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      width: 130px;
+      height: 130px;
+      right: -50px;
+      top: -50px;
+      border-radius: 50%;
+      background: var(--card-color);
+      filter: blur(45px);
+      opacity: 0.18;
+      transition: 0.35s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      border-color: var(--card-color);
+      box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.35),
+        0 0 30px color-mix(in srgb, var(--card-color), transparent 80%);
+    }
+
+    .card:hover::before {
+      opacity: 0.35;
+      transform: scale(1.4);
+    }
+
+    .icon {
+      position: relative;
+      width: 55px;
+      height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 22px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      font-size: 25px;
+    }
+
+    .card h3 {
+      position: relative;
+      font-size: 19px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      position: relative;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .arrow {
+      position: absolute;
+      right: 22px;
+      bottom: 20px;
+      color: var(--card-color);
+      font-size: 20px;
+      transition: 0.3s;
+    }
+
+    .card:hover .arrow {
+      transform: translateX(5px);
+    }
+
+    .card.home {
+      --card-color: #00eaff;
+    }
+
+    .card.house {
+      --card-color: #22c55e;
+    }
+
+    .card.car {
+      --card-color: #f59e0b;
+    }
+
+    .card.calc {
+      --card-color: #8b5cf6;
+    }
+
+    .card.calendar {
+      --card-color: #ec4899;
+    }
+
+    .card.play {
+      --card-color: #06b6d4;
+    }
+
+    footer {
+      padding: 30px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: #64748b;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding-top: 35px;
+      }
+
+      nav {
+        top: 8px;
+      }
+
+      nav a {
+        font-size: 12px;
+        padding: 9px 10px;
+      }
+
+      main {
+        padding-top: 55px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
 
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+
   <header>
-    <h1>Ivy de Website</h1>
+    <div class="logo">IVY</div>
+    <h1>IVY</h1>
+    <p>Next Generation Utility Hub</p>
   </header>
 
   <nav>
     <a href="index.html">🏠 Home</a>
-    <a href="1/house.html">🏡 House Purchase Calculator</a>
-    <a href="1/car.html">🚗 Car Loan Calculator</a>
-    <a href="1/calchub.html">💰 CalcHub Calculator</a>
-    <a href="1/chinesecalendar.html">🚗 Chinese Calendar</a>
-    <a href="1/play.html">🚗 Play</a>
+    <a href="1/house.html">🏡 House</a>
+    <a href="1/car.html">🚗 Car</a>
+    <a href="1/calchub.html">💰 CalcHub</a>
+    <a href="1/chinesecalendar.html">📅 Calendar</a>
+    <a href="1/play.html">🎮 Play</a>
   </nav>
 
   <main>
-    <h2>Welcome!</h2>
-    <p>Select a calculator from the navigation bar above.</p>
+
+    <section class="hero">
+
+      <div class="status">
+        System Online
+      </div>
+
+      <h2>
+        Welcome to the<br>
+        <span>IVY Future Hub</span>
+      </h2>
+
+      <p>
+        A modern collection of smart calculators, useful tools,
+        calendars and interactive experiences — designed for the future.
+      </p>
+
+    </section>
+
+    <section class="cards">
+
+      <a href="index.html" class="card home">
+        <div class="icon">🏠</div>
+        <h3>Home</h3>
+        <p>Return to the IVY central dashboard.</p>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="1/house.html" class="card house">
+        <div class="icon">🏡</div>
+        <h3>House Calculator</h3>
+        <p>Explore house purchase costs and financial calculations.</p>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="1/car.html" class="card car">
+        <div class="icon">🚗</div>
+        <h3>Car Loan</h3>
+        <p>Calculate monthly payments and vehicle financing.</p>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="1/calchub.html" class="card calc">
+        <div class="icon">💰</div>
+        <h3>CalcHub</h3>
+        <p>Your central hub for useful calculations and tools.</p>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="1/chinesecalendar.html" class="card calendar">
+        <div class="icon">📅</div>
+        <h3>Chinese Calendar</h3>
+        <p>Explore dates and traditional Chinese calendar information.</p>
+        <span class="arrow">→</span>
+      </a>
+
+      <a href="1/play.html" class="card play">
+        <div class="icon">🎮</div>
+        <h3>Play</h3>
+        <p>Enter the interactive area and explore something fun.</p>
+        <span class="arrow">→</span>
+      </a>
+
+    </section>
+
   </main>
+
+  <footer>
+    IVY SYSTEM • FUTURE HUB • © 2026
+  </footer>
 
 </body>
 </html>
+```
