@@ -1,0 +1,2689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Malaysia Business Calculator Pro</title>
+
+<style>
+:root{
+  --bg:#f4f7fb;
+  --card:#fff;
+  --ink:#172033;
+  --muted:#687386;
+  --line:#e1e6ef;
+  --blue:#1261ff;
+  --blue2:#0847c7;
+  --green:#079669;
+  --red:#d9363e;
+  --orange:#e78a00;
+  --purple:#7048d8;
+  --shadow:0 8px 28px rgba(20,35,70,.07);
+  --radius:16px;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+}
+
+.container{
+  width:min(1450px,94%);
+  margin:auto;
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:#0b1731;
+  color:#fff;
+  box-shadow:0 5px 22px rgba(0,0,0,.16);
+}
+
+.topbar-inner{
+  min-height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.brand{
+  font-size:21px;
+  font-weight:850;
+}
+
+.brand small{
+  display:block;
+  color:#9aa9c4;
+  font-size:11px;
+  margin-top:3px;
+  font-weight:500;
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+button{
+  border:0;
+  border-radius:10px;
+  padding:11px 17px;
+  font-weight:750;
+  cursor:pointer;
+}
+
+.btn-blue{
+  background:var(--blue);
+  color:white;
+}
+
+.btn-blue:hover{background:var(--blue2)}
+
+.btn-white{
+  background:white;
+  color:#182238;
+}
+
+main{
+  padding:28px 0 70px;
+}
+
+.hero{
+  margin-bottom:22px;
+}
+
+.hero h1{
+  font-size:31px;
+  margin:0 0 6px;
+}
+
+.hero p{
+  color:var(--muted);
+  margin:0;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:18px;
+}
+
+.card{
+  grid-column:span 12;
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:22px;
+  box-shadow:var(--shadow);
+}
+
+.span-6{grid-column:span 6}
+.span-4{grid-column:span 4}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:15px;
+  margin-bottom:17px;
+}
+
+.card h2{
+  font-size:19px;
+  margin:0 0 5px;
+}
+
+.card h3{
+  font-size:15px;
+  margin:20px 0 10px;
+}
+
+.desc{
+  color:var(--muted);
+  font-size:12.5px;
+  line-height:1.5;
+}
+
+.badge{
+  white-space:nowrap;
+  border-radius:20px;
+  padding:5px 10px;
+  background:#edf4ff;
+  color:var(--blue);
+  font-size:10px;
+  font-weight:850;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:13px;
+}
+
+.field label{
+  display:block;
+  font-size:12px;
+  font-weight:750;
+  color:#536078;
+  margin-bottom:6px;
+}
+
+.field input,
+.field select{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid #d4dbe7;
+  border-radius:9px;
+  outline:none;
+  font-size:14px;
+  background:white;
+  color:var(--ink);
+}
+
+.field input:focus,
+.field select:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(18,97,255,.1);
+}
+
+.money-input{
+  position:relative;
+}
+
+.money-input span{
+  position:absolute;
+  left:11px;
+  top:11px;
+  font-size:13px;
+  color:#778197;
+}
+
+.money-input input{
+  padding-left:37px;
+}
+
+.help{
+  font-size:10.5px;
+  color:#8a93a4;
+  margin-top:5px;
+  line-height:1.4;
+}
+
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:12px;
+}
+
+.kpi{
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:16px;
+  background:#fbfcff;
+}
+
+.kpi-label{
+  color:var(--muted);
+  font-size:11px;
+  font-weight:750;
+}
+
+.kpi-value{
+  font-size:21px;
+  font-weight:850;
+  margin-top:7px;
+}
+
+.green{color:var(--green)!important}
+.red{color:var(--red)!important}
+.blue{color:var(--blue)!important}
+.orange{color:var(--orange)!important}
+.purple{color:var(--purple)!important}
+
+.result-list{
+  display:flex;
+  flex-direction:column;
+}
+
+.result-row{
+  display:flex;
+  justify-content:space-between;
+  gap:18px;
+  padding:11px 0;
+  border-bottom:1px solid var(--line);
+  font-size:13px;
+}
+
+.result-row:last-child{
+  border-bottom:0;
+}
+
+.result-row strong{
+  text-align:right;
+}
+
+.result-total{
+  margin:10px -8px -3px;
+  padding:13px 8px;
+  border-radius:10px;
+  background:#f0f5ff;
+  font-size:14px;
+}
+
+.highlight{
+  border:1px solid #cbdcff;
+  background:#f3f7ff;
+  border-radius:12px;
+  padding:15px;
+}
+
+.big-answer{
+  font-size:30px;
+  font-weight:900;
+  margin-top:5px;
+  color:var(--blue);
+}
+
+.notice{
+  border-left:4px solid var(--blue);
+  background:#f1f6ff;
+  padding:12px 14px;
+  border-radius:8px;
+  color:#536078;
+  font-size:12px;
+  line-height:1.6;
+}
+
+.warning{
+  border-left-color:var(--orange);
+  background:#fff8ea;
+}
+
+.good{
+  border-left-color:var(--green);
+  background:#effbf6;
+}
+
+.danger{
+  border-left-color:var(--red);
+  background:#fff1f2;
+}
+
+.table-wrap{
+  overflow:auto;
+}
+
+table{
+  border-collapse:collapse;
+  width:100%;
+  min-width:900px;
+}
+
+th,td{
+  padding:11px 10px;
+  border-bottom:1px solid var(--line);
+  text-align:right;
+  font-size:12px;
+}
+
+th:first-child,
+td:first-child{
+  text-align:left;
+}
+
+th{
+  background:#f8faff;
+  color:#59657b;
+  font-size:11px;
+}
+
+.formula{
+  background:#f8faff;
+  border:1px solid var(--line);
+  padding:13px;
+  border-radius:10px;
+  font-size:12px;
+  line-height:1.65;
+}
+
+.formula code{
+  color:#31415f;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+
+footer{
+  text-align:center;
+  padding:25px;
+  color:#8b94a5;
+  font-size:11px;
+}
+
+@media(max-width:1150px){
+  .kpis{grid-template-columns:repeat(3,1fr)}
+  .span-6,.span-4{grid-column:span 12}
+}
+
+@media(max-width:700px){
+  .topbar-inner{
+    padding:12px 0;
+    align-items:flex-start;
+    flex-direction:column;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .kpis{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .hero h1{font-size:25px}
+}
+
+@media(max-width:430px){
+  .kpis{grid-template-columns:1fr}
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+<div class="container topbar-inner">
+
+  <div class="brand">
+    Malaysia Business Calculator PRO
+    <small>Pricing • Contribution • Tax • Break-even • ROI • Cash Flow • Forecast</small>
+  </div>
+
+  <div class="actions">
+    <button class="btn-white" onclick="resetAll()">Reset</button>
+    <button class="btn-blue" onclick="calculate()">↻ Calculate</button>
+  </div>
+
+</div>
+</header>
+
+<main>
+<div class="container">
+
+<div class="hero">
+  <h1>Malaysia Business Financial & Pricing Calculator</h1>
+  <p>
+    Change any number. Every result recalculates automatically.
+    Use the calculator to determine cost, selling price, contribution margin,
+    break-even point and target profit.
+  </p>
+</div>
+
+<div class="grid">
+
+<!-- =========================================================
+     DASHBOARD
+========================================================= -->
+
+<section class="card">
+
+<div class="section-head">
+  <div>
+    <h2>Live Business Dashboard</h2>
+    <div class="desc">All figures update when an assumption changes.</div>
+  </div>
+  <span class="badge" id="liveBadge">LIVE</span>
+</div>
+
+<div class="kpis">
+
+  <div class="kpi">
+    <div class="kpi-label">Selling Price</div>
+    <div class="kpi-value blue" id="kSellingPrice">RM0</div>
+  </div>
+
+  <div class="kpi">
+    <div class="kpi-label">Contribution / Unit</div>
+    <div class="kpi-value purple" id="kContribution">RM0</div>
+  </div>
+
+  <div class="kpi">
+    <div class="kpi-label">Contribution Margin</div>
+    <div class="kpi-value purple" id="kCM">0%</div>
+  </div>
+
+  <div class="kpi">
+    <div class="kpi-label">Monthly Revenue</div>
+    <div class="kpi-value" id="kRevenue">RM0</div>
+  </div>
+
+  <div class="kpi">
+    <div class="kpi-label">Monthly Net Profit</div>
+    <div class="kpi-value green" id="kProfit">RM0</div>
+  </div>
+
+  <div class="kpi">
+    <div class="kpi-label">Break-even Units</div>
+    <div class="kpi-value orange" id="kBreakEven">0</div>
+  </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     REVENUE / SALES
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>1. Sales & Revenue Assumptions</h2>
+<div class="desc">Your current selling price and sales volume.</div>
+</div>
+<span class="badge">INPUT</span>
+</div>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Selling Price / Unit</label>
+<div class="money-input">
+<span>RM</span>
+<input id="price" type="number" value="100" step=".01">
+</div>
+</div>
+
+<div class="field">
+<label>Units Sold / Month</label>
+<input id="units" type="number" value="500" step="1">
+</div>
+
+<div class="field">
+<label>Monthly Unit Growth</label>
+<div class="money-input">
+<span>%</span>
+<input id="growth" type="number" value="2" step=".1">
+</div>
+</div>
+
+<div class="field">
+<label>Expected Annual Price Increase</label>
+<div class="money-input">
+<span>%</span>
+<input id="priceGrowth" type="number" value="0" step=".1">
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     VARIABLE COSTS
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>2. Variable Cost / Unit</h2>
+<div class="desc">
+Costs that increase when you sell one additional unit.
+</div>
+</div>
+<span class="badge">CRITICAL</span>
+</div>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Product / Material Cost</label>
+<div class="money-input">
+<span>RM</span>
+<input id="productCost" type="number" value="35" step=".01">
+</div>
+</div>
+
+<div class="field">
+<label>Packaging / Unit</label>
+<div class="money-input">
+<span>RM</span>
+<input id="packaging" type="number" value="1" step=".01">
+</div>
+</div>
+
+<div class="field">
+<label>Shipping / Delivery / Unit</label>
+<div class="money-input">
+<span>RM</span>
+<input id="shipping" type="number" value="2" step=".01">
+</div>
+</div>
+
+<div class="field">
+<label>Sales Commission / Unit</label>
+<div class="money-input">
+<span>RM</span>
+<input id="salesCommission" type="number" value="0" step=".01">
+</div>
+</div>
+
+<div class="field">
+<label>Warranty / Service / Unit</label>
+<div class="money-input">
+<span>RM</span>
+<input id="warranty" type="number" value="0" step=".01">
+</div>
+</div>
+
+<div class="field">
+<label>Other Variable Cost / Unit</label>
+<div class="money-input">
+<span>RM</span>
+<input id="otherVariable" type="number" value="0" step=".01">
+</div>
+</div>
+
+<div class="field">
+<label>Payment Gateway / Marketplace Fee</label>
+<div class="money-input">
+<span>%</span>
+<input id="paymentFee" type="number" value="2" step=".1">
+</div>
+</div>
+
+<div class="field">
+<label>Returns / Refund Allowance</label>
+<div class="money-input">
+<span>%</span>
+<input id="refundRate" type="number" value="1" step=".1">
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     CONTRIBUTION
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>3. Contribution Analysis</h2>
+<div class="desc">
+Shows exactly how much of every sale remains after variable costs.
+</div>
+</div>
+<span class="badge">PRICING</span>
+</div>
+
+<div class="result-list">
+
+<div class="result-row">
+<span>Selling Price</span>
+<strong id="cPrice">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Product Cost</span>
+<strong id="cProduct">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Packaging</span>
+<strong id="cPackaging">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Shipping</span>
+<strong id="cShipping">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Sales Commission</span>
+<strong id="cCommission">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Warranty / Other Variable</span>
+<strong id="cOther">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Payment Fee</span>
+<strong id="cPayment">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Return / Refund Allowance</span>
+<strong id="cRefund">RM0</strong>
+</div>
+
+<div class="result-row result-total">
+<span><strong>Total Variable Cost / Unit</strong></span>
+<strong id="cVariable">RM0</strong>
+</div>
+
+<div class="result-row result-total">
+<span><strong>Contribution / Unit</strong></span>
+<strong class="purple" id="cContribution">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Contribution Margin</span>
+<strong class="purple" id="cMargin">0%</strong>
+</div>
+
+</div>
+
+<br>
+
+<div class="notice good">
+<strong>Meaning:</strong>
+Contribution per unit is the money left from each sale after ALL variable
+costs. It pays fixed costs first; after fixed costs are covered, the
+remaining contribution becomes operating profit.
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     FIXED COSTS
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>4. Monthly Fixed / Operating Costs</h2>
+<div class="desc">
+Costs that generally do not change directly with each unit sold.
+</div>
+</div>
+<span class="badge">OPEX</span>
+</div>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Rent</label>
+<div class="money-input">
+<span>RM</span>
+<input id="rent" type="number" value="3000">
+</div>
+</div>
+
+<div class="field">
+<label>Employee Salaries</label>
+<div class="money-input">
+<span>RM</span>
+<input id="salary" type="number" value="8000">
+</div>
+</div>
+
+<div class="field">
+<label>Utilities</label>
+<div class="money-input">
+<span>RM</span>
+<input id="utilities" type="number" value="1000">
+</div>
+</div>
+
+<div class="field">
+<label>Marketing / Advertising</label>
+<div class="money-input">
+<span>RM</span>
+<input id="marketing" type="number" value="3000">
+</div>
+</div>
+
+<div class="field">
+<label>Software / Subscriptions</label>
+<div class="money-input">
+<span>RM</span>
+<input id="software" type="number" value="500">
+</div>
+</div>
+
+<div class="field">
+<label>Insurance</label>
+<div class="money-input">
+<span>RM</span>
+<input id="insurance" type="number" value="300">
+</div>
+</div>
+
+<div class="field">
+<label>Accounting / Professional Fees</label>
+<div class="money-input">
+<span>RM</span>
+<input id="accounting" type="number" value="400">
+</div>
+</div>
+
+<div class="field">
+<label>Transport / Admin / Other</label>
+<div class="money-input">
+<span>RM</span>
+<input id="otherOpex" type="number" value="1000">
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     PRICING CALCULATOR
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>5. Selling Price Calculator</h2>
+<div class="desc">
+Work backwards from your target margin or target monthly profit.
+</div>
+</div>
+<span class="badge">PRICE ENGINE</span>
+</div>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Target Contribution Margin</label>
+<div class="money-input">
+<span>%</span>
+<input id="targetMargin" type="number" value="60" step=".1">
+</div>
+</div>
+
+<div class="field">
+<label>Desired Monthly Profit</label>
+<div class="money-input">
+<span>RM</span>
+<input id="desiredProfit" type="number" value="5000" step="100">
+</div>
+</div>
+
+</div>
+
+<br>
+
+<div class="highlight">
+
+<div class="desc">Price required for target contribution margin</div>
+
+<div class="big-answer" id="priceFromMargin">
+RM0
+</div>
+
+<div class="help">
+Variable cost ÷ (1 − target contribution margin),
+with percentage-based selling fees accounted for.
+</div>
+
+</div>
+
+<br>
+
+<div class="highlight">
+
+<div class="desc">
+Price required to cover fixed costs AND achieve desired monthly profit
+</div>
+
+<div class="big-answer" id="priceFromProfit">
+RM0
+</div>
+
+<div class="help">
+Calculated using expected monthly unit volume.
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     PRICE SCENARIOS
+========================================================= -->
+
+<section class="card">
+
+<div class="section-head">
+<div>
+<h2>6. Selling Price Scenario Table</h2>
+<div class="desc">
+See how changing the selling price changes contribution and profit.
+</div>
+</div>
+</div>
+
+<div class="table-wrap">
+
+<table>
+<thead>
+<tr>
+<th>Price</th>
+<th>Variable Cost / Unit</th>
+<th>Contribution / Unit</th>
+<th>Contribution Margin</th>
+<th>Monthly Revenue</th>
+<th>Monthly Contribution</th>
+<th>Monthly Profit Before Tax</th>
+</tr>
+</thead>
+
+<tbody id="priceTable"></tbody>
+</table>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     BREAK EVEN
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>7. Break-even Analysis</h2>
+<div class="desc">
+How many units must you sell before the business covers fixed costs?
+</div>
+</div>
+<span class="badge">BREAK-EVEN</span>
+</div>
+
+<div class="result-list">
+
+<div class="result-row">
+<span>Total Monthly Fixed Costs</span>
+<strong id="bFixed">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Contribution / Unit</span>
+<strong id="bContribution">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Break-even Units</span>
+<strong id="bUnits">0</strong>
+</div>
+
+<div class="result-row">
+<span>Break-even Revenue</span>
+<strong id="bRevenue">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Current Units</span>
+<strong id="bCurrentUnits">0</strong>
+</div>
+
+<div class="result-row result-total">
+<span><strong>Safety Margin</strong></span>
+<strong id="bSafety">0%</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     P&L
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>8. Monthly Profit & Loss</h2>
+<div class="desc">Current business model.</div>
+</div>
+</div>
+
+<div class="result-list">
+
+<div class="result-row">
+<span>Revenue</span>
+<strong id="pRevenue">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Total Variable Costs</span>
+<strong id="pVariable">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Contribution</span>
+<strong id="pContribution">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Fixed / Operating Costs</span>
+<strong id="pFixed">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>EBITDA / Operating Profit</span>
+<strong id="pEBITDA">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Depreciation</span>
+<strong id="pDepreciation">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Interest</span>
+<strong id="pInterest">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Profit Before Tax</span>
+<strong id="pPBT">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Estimated Corporate Tax</span>
+<strong id="pTax">RM0</strong>
+</div>
+
+<div class="result-row result-total">
+<span><strong>Net Profit</strong></span>
+<strong id="pNet">RM0</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     FINANCE
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>9. Financing & Depreciation</h2>
+<div class="desc">Optional financing assumptions.</div>
+</div>
+</div>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Depreciation / Month</label>
+<div class="money-input">
+<span>RM</span>
+<input id="depreciation" type="number" value="500">
+</div>
+</div>
+
+<div class="field">
+<label>Loan Principal Outstanding</label>
+<div class="money-input">
+<span>RM</span>
+<input id="loan" type="number" value="0">
+</div>
+</div>
+
+<div class="field">
+<label>Annual Interest Rate</label>
+<div class="money-input">
+<span>%</span>
+<input id="interestRate" type="number" value="5" step=".1">
+</div>
+</div>
+
+<div class="field">
+<label>Monthly Loan Principal Repayment</label>
+<div class="money-input">
+<span>RM</span>
+<input id="loanRepayment" type="number" value="0">
+</div>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     TAX
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>10. Malaysia Corporate Tax Assumptions</h2>
+<div class="desc">
+Tax is calculated progressively rather than assuming the whole profit is
+taxed at 17%.
+</div>
+</div>
+<span class="badge">TAX</span>
+</div>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Qualifying SME / Reduced-Rate Company?</label>
+<select id="smeTax">
+<option value="yes">Yes — use editable SME bands</option>
+<option value="no">No — use 24% general assumption</option>
+</select>
+</div>
+
+<div class="field">
+<label>Tax Rate — Band 1</label>
+<div class="money-input">
+<span>%</span>
+<input id="tax1" type="number" value="15" step=".1">
+</div>
+</div>
+
+<div class="field">
+<label>Band 1 Limit</label>
+<div class="money-input">
+<span>RM</span>
+<input id="taxLimit1" type="number" value="150000">
+</div>
+</div>
+
+<div class="field">
+<label>Tax Rate — Band 2</label>
+<div class="money-input">
+<span>%</span>
+<input id="tax2" type="number" value="17" step=".1">
+</div>
+</div>
+
+<div class="field">
+<label>Band 2 Upper Limit</label>
+<div class="money-input">
+<span>RM</span>
+<input id="taxLimit2" type="number" value="600000">
+</div>
+</div>
+
+<div class="field">
+<label>Tax Rate Above Band 2</label>
+<div class="money-input">
+<span>%</span>
+<input id="tax3" type="number" value="24" step=".1">
+</div>
+</div>
+
+<div class="field">
+<label>Monthly Government / Licence Provision</label>
+<div class="money-input">
+<span>RM</span>
+<input id="government" type="number" value="100">
+</div>
+</div>
+
+<div class="field">
+<label>Annual Government / Licence Fees</label>
+<div class="money-input">
+<span>RM</span>
+<input id="governmentAnnual" type="number" value="500">
+</div>
+</div>
+
+</div>
+
+<br>
+
+<div class="notice warning">
+<strong>Important:</strong>
+The tax fields are editable assumptions. Actual Malaysian tax depends on
+company type, qualifying conditions, chargeable income, incentives,
+deductions, allowances and the relevant tax year. The calculator is a
+planning model, not a tax filing system.
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     TAX RESULT
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>11. Annual Tax Calculation</h2>
+<div class="desc">Progressive calculation based on annual chargeable income.</div>
+</div>
+</div>
+
+<div class="result-list">
+
+<div class="result-row">
+<span>Annual Revenue</span>
+<strong id="tRevenue">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Annual Profit Before Tax</span>
+<strong id="tPBT">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Estimated Chargeable Income</span>
+<strong id="tChargeable">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Tax — Band 1</span>
+<strong id="tBand1">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Tax — Band 2</span>
+<strong id="tBand2">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Tax — Above Band 2</span>
+<strong id="tBand3">RM0</strong>
+</div>
+
+<div class="result-row result-total">
+<span><strong>Estimated Annual Tax</strong></span>
+<strong id="tTax">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Average Effective Tax Rate</span>
+<strong id="tEffective">0%</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     STARTUP
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>12. Startup Cost & Capital Requirement</h2>
+<div class="desc">One-time launch costs plus working capital.</div>
+</div>
+</div>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Business Registration</label>
+<div class="money-input">
+<span>RM</span>
+<input id="reg" type="number" value="300">
+</div>
+</div>
+
+<div class="field">
+<label>Legal / Professional Setup</label>
+<div class="money-input">
+<span>RM</span>
+<input id="legal" type="number" value="1500">
+</div>
+</div>
+
+<div class="field">
+<label>Equipment</label>
+<div class="money-input">
+<span>RM</span>
+<input id="equipment" type="number" value="10000">
+</div>
+</div>
+
+<div class="field">
+<label>Renovation / Fit-out</label>
+<div class="money-input">
+<span>RM</span>
+<input id="renovation" type="number" value="5000">
+</div>
+</div>
+
+<div class="field">
+<label>Initial Inventory</label>
+<div class="money-input">
+<span>RM</span>
+<input id="inventory" type="number" value="8000">
+</div>
+</div>
+
+<div class="field">
+<label>Website / Technology</label>
+<div class="money-input">
+<span>RM</span>
+<input id="website" type="number" value="2000">
+</div>
+</div>
+
+<div class="field">
+<label>Initial Marketing</label>
+<div class="money-input">
+<span>RM</span>
+<input id="initialMarketing" type="number" value="5000">
+</div>
+</div>
+
+<div class="field">
+<label>Other Startup Cost</label>
+<div class="money-input">
+<span>RM</span>
+<input id="otherStartup" type="number" value="2000">
+</div>
+</div>
+
+<div class="field">
+<label>Working Capital Months</label>
+<input id="workingMonths" type="number" value="3" step=".5">
+</div>
+
+<div class="field">
+<label>Emergency Reserve</label>
+<div class="money-input">
+<span>RM</span>
+<input id="reserve" type="number" value="5000">
+</div>
+</div>
+
+</div>
+
+<br>
+
+<div class="result-list">
+
+<div class="result-row">
+<span>One-time Startup Cost</span>
+<strong id="sStartup">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Working Capital</span>
+<strong id="sWorking">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Emergency Reserve</span>
+<strong id="sReserve">RM0</strong>
+</div>
+
+<div class="result-row result-total">
+<span><strong>Total Recommended Capital</strong></span>
+<strong id="sCapital">RM0</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     ROI
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>13. ROI, ROIC & Payback</h2>
+<div class="desc">Investment performance measurements.</div>
+</div>
+</div>
+
+<div class="result-list">
+
+<div class="result-row">
+<span>Monthly Net Profit</span>
+<strong id="rNet">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Annual Net Profit</span>
+<strong id="rAnnualNet">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Monthly ROI</span>
+<strong id="rROI">0%</strong>
+</div>
+
+<div class="result-row">
+<span>Annual ROI</span>
+<strong id="rAnnualROI">0%</strong>
+</div>
+
+<div class="result-row">
+<span>Payback Period</span>
+<strong id="rPayback">N/A</strong>
+</div>
+
+<div class="result-row">
+<span>ROIC Approximation</span>
+<strong id="rROIC">0%</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     CASH FLOW
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>14. Cash Flow & Runway</h2>
+<div class="desc">
+Estimate how much cash the business requires before becoming self-sustaining.
+</div>
+</div>
+</div>
+
+<div class="result-list">
+
+<div class="result-row">
+<span>Monthly Operating Profit</span>
+<strong id="cfProfit">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Monthly Cash Debt Repayment</span>
+<strong id="cfDebt">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Monthly Cash Burn if Loss-Making</span>
+<strong id="cfBurn">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Working Capital Requirement</span>
+<strong id="cfWorking">RM0</strong>
+</div>
+
+<div class="result-row result-total">
+<span><strong>Recommended Cash Requirement</strong></span>
+<strong id="cfCapital">RM0</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     MARKETING
+========================================================= -->
+
+<section class="card span-6">
+
+<div class="section-head">
+<div>
+<h2>15. Marketing Economics</h2>
+<div class="desc">Useful for ecommerce and customer-acquisition businesses.</div>
+</div>
+</div>
+
+<div class="form-grid">
+
+<div class="field">
+<label>Monthly Marketing Spend</label>
+<div class="money-input">
+<span>RM</span>
+<input id="mktSpend" type="number" value="3000">
+</div>
+</div>
+
+<div class="field">
+<label>New Customers / Month</label>
+<input id="customers" type="number" value="100">
+</div>
+
+<div class="field">
+<label>Average Orders / Customer</label>
+<input id="ordersCustomer" type="number" value="1.5" step=".1">
+</div>
+
+<div class="field">
+<label>Customer Lifetime Months</label>
+<input id="lifetime" type="number" value="12">
+</div>
+
+</div>
+
+<br>
+
+<div class="result-list">
+
+<div class="result-row">
+<span>CAC</span>
+<strong id="mCAC">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Customer Orders</span>
+<strong id="mOrders">0</strong>
+</div>
+
+<div class="result-row">
+<span>Customer Revenue / Lifetime</span>
+<strong id="mLTVRevenue">RM0</strong>
+</div>
+
+<div class="result-row">
+<span>Approx. Customer Contribution LTV</span>
+<strong id="mLTV">RM0</strong>
+</div>
+
+<div class="result-row result-total">
+<span><strong>LTV : CAC</strong></span>
+<strong id="mRatio">0x</strong>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     3 YEAR FORECAST
+========================================================= -->
+
+<section class="card">
+
+<div class="section-head">
+<div>
+<h2>16. Three-Year Projection</h2>
+<div class="desc">
+Uses your unit growth assumption and current cost assumptions.
+</div>
+</div>
+</div>
+
+<div class="table-wrap">
+
+<table>
+<thead>
+<tr>
+<th>Year</th>
+<th>Units</th>
+<th>Revenue</th>
+<th>Variable Cost</th>
+<th>Contribution</th>
+<th>Fixed Cost</th>
+<th>Profit Before Tax</th>
+<th>Tax</th>
+<th>Net Profit</th>
+<th>Net Margin</th>
+</tr>
+</thead>
+
+<tbody id="forecast"></tbody>
+</table>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     FORMULAS
+========================================================= -->
+
+<section class="card">
+
+<div class="section-head">
+<div>
+<h2>17. Formula Reference</h2>
+<div class="desc">
+The calculator is based on standard management-accounting relationships.
+</div>
+</div>
+</div>
+
+<div class="grid">
+
+<div class="span-6">
+
+<div class="formula">
+<strong>Variable Cost / Unit</strong><br>
+<code>
+Product Cost + Packaging + Shipping + Commission +
+Warranty + Other Variable + Percentage Fees + Refund Allowance
+</code>
+</div>
+
+<br>
+
+<div class="formula">
+<strong>Contribution / Unit</strong><br>
+<code>
+Selling Price − Variable Cost / Unit
+</code>
+</div>
+
+<br>
+
+<div class="formula">
+<strong>Contribution Margin</strong><br>
+<code>
+Contribution / Unit ÷ Selling Price × 100
+</code>
+</div>
+
+<br>
+
+<div class="formula">
+<strong>Break-even Units</strong><br>
+<code>
+Fixed Costs ÷ Contribution / Unit
+</code>
+</div>
+
+</div>
+
+<div class="span-6">
+
+<div class="formula">
+<strong>Break-even Revenue</strong><br>
+<code>
+Break-even Units × Selling Price
+</code>
+</div>
+
+<br>
+
+<div class="formula">
+<strong>Target Margin Price</strong><br>
+<code>
+Fixed Variable Cost ÷ (1 − Percentage Fee − Refund − Target Margin)
+</code>
+</div>
+
+<br>
+
+<div class="formula">
+<strong>Target Profit Price</strong><br>
+<code>
+(Fixed Cost + Desired Profit) ÷ Units
++ Fixed Variable Cost
+</code>
+</div>
+
+<br>
+
+<div class="formula">
+<strong>Payback</strong><br>
+<code>
+Recommended Capital ÷ Monthly Net Profit
+</code>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================================================
+     NOTES
+========================================================= -->
+
+<section class="card">
+
+<div class="notice">
+<strong>Planning note:</strong>
+This is a business-planning model. Malaysian tax, SST, payroll contributions,
+licences, permits, incentives and other statutory obligations depend on the
+business structure, activity, employee circumstances, location and applicable
+rules. Enter the actual assumptions applicable to your business before relying
+on the results for financial or tax decisions.
+</div>
+
+</section>
+
+</div>
+</div>
+</main>
+
+<footer>
+Malaysia Business Calculator PRO • Live calculation engine
+</footer>
+
+
+<script>
+
+/* ============================================================
+   BASIC HELPERS
+============================================================ */
+
+function n(id){
+  const el=document.getElementById(id);
+  if(!el) return 0;
+
+  const v=parseFloat(el.value);
+  return Number.isFinite(v) ? v : 0;
+}
+
+function money(v){
+  if(!Number.isFinite(v)) v=0;
+
+  return new Intl.NumberFormat("en-MY",{
+    style:"currency",
+    currency:"MYR",
+    minimumFractionDigits:2,
+    maximumFractionDigits:2
+  }).format(v);
+}
+
+function num(v){
+  if(!Number.isFinite(v)) v=0;
+
+  return new Intl.NumberFormat("en-MY",{
+    maximumFractionDigits:0
+  }).format(v);
+}
+
+function pct(v){
+  if(!Number.isFinite(v)) v=0;
+  return v.toFixed(2)+"%";
+}
+
+function set(id,value){
+  const el=document.getElementById(id);
+  if(el) el.textContent=value;
+}
+
+
+/* ============================================================
+   PROGRESSIVE MALAYSIA TAX MODEL
+============================================================ */
+
+function calculateTax(chargeable){
+
+  chargeable=Math.max(0,chargeable);
+
+  const eligible =
+    document.getElementById("smeTax").value === "yes";
+
+  const r1=n("tax1")/100;
+  const r2=n("tax2")/100;
+  const r3=n("tax3")/100;
+
+  const limit1=Math.max(0,n("taxLimit1"));
+  const limit2=Math.max(limit1,n("taxLimit2"));
+
+  let band1=0;
+  let band2=0;
+  let band3=0;
+
+  if(!eligible){
+
+    band3=chargeable*r3;
+
+  }else{
+
+    band1=
+      Math.min(chargeable,limit1)*r1;
+
+    if(chargeable>limit1){
+
+      band2=
+        Math.min(
+          chargeable-limit1,
+          limit2-limit1
+        )*r2;
+
+    }
+
+    if(chargeable>limit2){
+
+      band3=
+        (chargeable-limit2)*r3;
+
+    }
+
+  }
+
+  return {
+    band1,
+    band2,
+    band3,
+    total:band1+band2+band3
+  };
+}
+
+
+/* ============================================================
+   MAIN CALCULATOR
+============================================================ */
+
+function calculate(){
+
+  /* -----------------------------
+     SALES
+  ----------------------------- */
+
+  const price=Math.max(0,n("price"));
+  const units=Math.max(0,n("units"));
+
+  /* -----------------------------
+     VARIABLE COSTS
+  ----------------------------- */
+
+  const product=n("productCost");
+  const packaging=n("packaging");
+  const shipping=n("shipping");
+  const commission=n("salesCommission");
+  const warranty=n("warranty");
+  const otherVariable=n("otherVariable");
+
+  const paymentRate=n("paymentFee")/100;
+  const refundRate=n("refundRate")/100;
+
+  /*
+    Percentage fees are calculated from selling price.
+  */
+
+  const payment=price*paymentRate;
+  const refund=price*refundRate;
+
+  const fixedVariable =
+      product
+    + packaging
+    + shipping
+    + commission
+    + warranty
+    + otherVariable;
+
+  const variablePerUnit =
+      fixedVariable
+    + payment
+    + refund;
+
+  const contribution =
+    price-variablePerUnit;
+
+  const contributionMargin =
+    price>0
+      ? contribution/price
+      : 0;
+
+
+  /* -----------------------------
+     MONTHLY BUSINESS
+  ----------------------------- */
+
+  const revenue =
+    price*units;
+
+  const totalVariable =
+    variablePerUnit*units;
+
+  const monthlyContribution =
+    contribution*units;
+
+
+  /* -----------------------------
+     FIXED COST
+  ----------------------------- */
+
+  const fixedCosts =
+      n("rent")
+    + n("salary")
+    + n("utilities")
+    + n("marketing")
+    + n("software")
+    + n("insurance")
+    + n("accounting")
+    + n("otherOpex");
+
+  const governmentMonthly=n("government");
+
+  const governmentAnnual=n("governmentAnnual");
+
+  const totalFixed =
+    fixedCosts+
+    governmentMonthly+
+    governmentAnnual/12;
+
+
+  /* -----------------------------
+     FINANCING
+  ----------------------------- */
+
+  const depreciation=n("depreciation");
+
+  const loan=n("loan");
+
+  const interestRate=n("interestRate")/100;
+
+  const interest=
+    loan*interestRate/12;
+
+  const loanRepayment=
+    n("loanRepayment");
+
+
+  /* -----------------------------
+     PROFIT
+  ----------------------------- */
+
+  const EBITDA=
+    monthlyContribution-totalFixed;
+
+  const EBIT=
+    EBITDA-depreciation;
+
+  const PBT=
+    EBIT-interest;
+
+
+  /* -----------------------------
+     TAX
+  ----------------------------- */
+
+  const annualPBT=
+    Math.max(0,PBT*12);
+
+  const taxResult=
+    calculateTax(annualPBT);
+
+  const annualTax=
+    taxResult.total;
+
+  const monthlyTax=
+    annualTax/12;
+
+  const netProfit=
+    PBT-monthlyTax;
+
+
+  /* -----------------------------
+     BREAK EVEN
+  ----------------------------- */
+
+  let breakEvenUnits=0;
+
+  if(contribution>0){
+    breakEvenUnits=
+      totalFixed/contribution;
+  }else{
+    breakEvenUnits=Infinity;
+  }
+
+  const breakEvenRevenue=
+    Number.isFinite(breakEvenUnits)
+      ? breakEvenUnits*price
+      : Infinity;
+
+  const safetyMargin=
+    units>0
+      ? (units-breakEvenUnits)/units
+      : 0;
+
+
+  /* -----------------------------
+     STARTUP CAPITAL
+  ----------------------------- */
+
+  const startup=
+
+      n("reg")
+    + n("legal")
+    + n("equipment")
+    + n("renovation")
+    + n("inventory")
+    + n("website")
+    + n("initialMarketing")
+    + n("otherStartup");
+
+  const workingCapital=
+    Math.max(0,totalFixed)*
+    Math.max(0,n("workingMonths"));
+
+  const reserve=
+    Math.max(0,n("reserve"));
+
+  const recommendedCapital=
+    startup+
+    workingCapital+
+    reserve;
+
+
+  /* -----------------------------
+     PRICE CALCULATOR
+  ----------------------------- */
+
+  const targetMargin=
+    Math.min(.99,Math.max(0,n("targetMargin")/100));
+
+  /*
+    Price formula:
+
+    Price - fixedVariable - price*paymentRate
+          - price*refundRate
+    = targetMargin*price
+
+    Therefore:
+
+    Price =
+    fixedVariable /
+    (1 - paymentRate - refundRate - targetMargin)
+  */
+
+  const marginDenominator=
+      1
+    - paymentRate
+    - refundRate
+    - targetMargin;
+
+  let priceForMargin=Infinity;
+
+  if(marginDenominator>0){
+
+    priceForMargin=
+      fixedVariable/
+      marginDenominator;
+
+  }
+
+
+  /* -----------------------------
+     TARGET PROFIT PRICE
+  ----------------------------- */
+
+  const desiredProfit=
+    n("desiredProfit");
+
+  /*
+    Required monthly contribution:
+
+    Fixed Costs + Desired Profit
+
+    Required contribution per unit:
+
+    (Fixed Costs + Desired Profit) / Units
+
+    Price solves:
+
+    Price - fixedVariable
+    - price*paymentRate
+    - price*refundRate
+    =
+    requiredContribution
+  */
+
+  const requiredContributionPerUnit=
+    units>0
+      ? (totalFixed+desiredProfit)/units
+      : Infinity;
+
+  const profitDenominator=
+      1
+    - paymentRate
+    - refundRate;
+
+  let priceForProfit=Infinity;
+
+  if(
+    profitDenominator>0 &&
+    Number.isFinite(requiredContributionPerUnit)
+  ){
+
+    priceForProfit=
+      (fixedVariable+
+       requiredContributionPerUnit)/
+      profitDenominator;
+
+  }
+
+
+  /* ==========================================================
+     DASHBOARD
+  ========================================================== */
+
+  set("kSellingPrice",money(price));
+  set("kContribution",money(contribution));
+  set("kCM",pct(contributionMargin*100));
+  set("kRevenue",money(revenue));
+  set("kProfit",money(netProfit));
+
+  set(
+    "kBreakEven",
+    Number.isFinite(breakEvenUnits)
+      ? num(Math.ceil(Math.max(0,breakEvenUnits)))
+      : "N/A"
+  );
+
+
+  /* ==========================================================
+     CONTRIBUTION BREAKDOWN
+  ========================================================== */
+
+  set("cPrice",money(price));
+  set("cProduct",money(product));
+  set("cPackaging",money(packaging));
+  set("cShipping",money(shipping));
+  set("cCommission",money(commission));
+  set(
+    "cOther",
+    money(warranty+otherVariable)
+  );
+  set("cPayment",money(payment));
+  set("cRefund",money(refund));
+  set("cVariable",money(variablePerUnit));
+  set("cContribution",money(contribution));
+  set("cMargin",pct(contributionMargin*100));
+
+
+  /* ==========================================================
+     PRICING ENGINE
+  ========================================================== */
+
+  set(
+    "priceFromMargin",
+    Number.isFinite(priceForMargin)
+      ? money(priceForMargin)
+      : "Not possible"
+  );
+
+  set(
+    "priceFromProfit",
+    Number.isFinite(priceForProfit)
+      ? money(priceForProfit)
+      : "Not possible"
+  );
+
+
+  /* ==========================================================
+     BREAK EVEN
+  ========================================================== */
+
+  set("bFixed",money(totalFixed));
+  set("bContribution",money(contribution));
+
+  set(
+    "bUnits",
+    Number.isFinite(breakEvenUnits)
+      ? num(Math.ceil(Math.max(0,breakEvenUnits)))
+      : "N/A"
+  );
+
+  set(
+    "bRevenue",
+    Number.isFinite(breakEvenRevenue)
+      ? money(breakEvenRevenue)
+      : "N/A"
+  );
+
+  set("bCurrentUnits",num(units));
+  set("bSafety",pct(safetyMargin*100));
+
+
+  /* ==========================================================
+     P&L
+  ========================================================== */
+
+  set("pRevenue",money(revenue));
+  set("pVariable",money(totalVariable));
+  set("pContribution",money(monthlyContribution));
+  set("pFixed",money(totalFixed));
+  set("pEBITDA",money(EBITDA));
+  set("pDepreciation",money(depreciation));
+  set("pInterest",money(interest));
+  set("pPBT",money(PBT));
+  set("pTax",money(monthlyTax));
+  set("pNet",money(netProfit));
+
+
+  /* ==========================================================
+     TAX
+  ========================================================== */
+
+  set("tRevenue",money(revenue*12));
+  set("tPBT",money(annualPBT));
+  set("tChargeable",money(annualPBT));
+  set("tBand1",money(taxResult.band1));
+  set("tBand2",money(taxResult.band2));
+  set("tBand3",money(taxResult.band3));
+  set("tTax",money(annualTax));
+
+  set(
+    "tEffective",
+    annualPBT>0
+      ? pct(annualTax/annualPBT*100)
+      : "0.00%"
+  );
+
+
+  /* ==========================================================
+     STARTUP
+  ========================================================== */
+
+  set("sStartup",money(startup));
+  set("sWorking",money(workingCapital));
+  set("sReserve",money(reserve));
+  set("sCapital",money(recommendedCapital));
+
+
+  /* ==========================================================
+     ROI
+  ========================================================== */
+
+  const annualNet=
+    netProfit*12;
+
+  const monthlyROI=
+    recommendedCapital>0
+      ? netProfit/recommendedCapital
+      : 0;
+
+  const annualROI=
+    recommendedCapital>0
+      ? annualNet/recommendedCapital
+      : 0;
+
+  const payback=
+    netProfit>0
+      ? recommendedCapital/netProfit
+      : Infinity;
+
+  /*
+    ROIC approximation:
+    after-tax operating profit / invested capital
+  */
+
+  const nopat=
+    EBIT-
+    monthlyTax;
+
+  const roic=
+    recommendedCapital>0
+      ? (nopat*12)/recommendedCapital
+      : 0;
+
+  set("rNet",money(netProfit));
+  set("rAnnualNet",money(annualNet));
+  set("rROI",pct(monthlyROI*100));
+  set("rAnnualROI",pct(annualROI*100));
+
+  set(
+    "rPayback",
+    Number.isFinite(payback)
+      ? payback.toFixed(1)+" months"
+      : "N/A"
+  );
+
+  set("rROIC",pct(roic*100));
+
+
+  /* ==========================================================
+     CASH FLOW
+  ========================================================== */
+
+  const cashProfit=
+    netProfit-
+    loanRepayment;
+
+  const burn=
+    cashProfit<0
+      ? Math.abs(cashProfit)
+      : 0;
+
+  set("cfProfit",money(netProfit));
+  set("cfDebt",money(loanRepayment));
+  set("cfBurn",money(burn));
+  set("cfWorking",money(workingCapital));
+  set("cfCapital",money(recommendedCapital));
+
+
+  /* ==========================================================
+     MARKETING
+  ========================================================== */
+
+  const marketingSpend=n("mktSpend");
+  const customers=Math.max(0,n("customers"));
+  const ordersCustomer=Math.max(0,n("ordersCustomer"));
+  const lifetime=Math.max(0,n("lifetime"));
+
+  const CAC=
+    customers>0
+      ? marketingSpend/customers
+      : 0;
+
+  const lifetimeOrders=
+    ordersCustomer*lifetime;
+
+  const lifetimeRevenue=
+    lifetimeOrders*price;
+
+  const lifetimeContribution=
+    lifetimeOrders*contribution;
+
+  const ltvCac=
+    CAC>0
+      ? lifetimeContribution/CAC
+      : 0;
+
+  set("mCAC",money(CAC));
+  set("mOrders",num(lifetimeOrders));
+  set("mLTVRevenue",money(lifetimeRevenue));
+  set("mLTV",money(lifetimeContribution));
+  set("mRatio",ltvCac.toFixed(2)+"x");
+
+
+  /* ==========================================================
+     PRICE SCENARIOS
+  ========================================================== */
+
+  buildPriceTable({
+    price,
+    fixedVariable,
+    paymentRate,
+    refundRate,
+    units,
+    totalFixed,
+    depreciation,
+    interest
+  });
+
+
+  /* ==========================================================
+     FORECAST
+  ========================================================== */
+
+  buildForecast({
+    price,
+    units,
+    growth:n("growth")/100,
+    priceGrowth:n("priceGrowth")/100,
+    product,
+    packaging,
+    shipping,
+    commission,
+    warranty,
+    otherVariable,
+    paymentRate,
+    refundRate,
+    totalFixed
+  });
+
+
+  /* ==========================================================
+     PROFIT COLOR
+  ========================================================== */
+
+  const profitEl=document.getElementById("kProfit");
+
+  profitEl.classList.remove("green","red");
+
+  if(netProfit>=0){
+    profitEl.classList.add("green");
+  }else{
+    profitEl.classList.add("red");
+  }
+
+
+  /* ==========================================================
+     STATUS
+  ========================================================== */
+
+  set(
+    "liveBadge",
+    "UPDATED "+
+    new Date().toLocaleTimeString("en-MY",{
+      hour:"2-digit",
+      minute:"2-digit"
+    })
+  );
+}
+
+
+/* ============================================================
+   PRICE SCENARIO TABLE
+============================================================ */
+
+function buildPriceTable(data){
+
+  const table=document.getElementById("priceTable");
+
+  table.innerHTML="";
+
+  const base=data.price;
+
+  const prices=[
+    base*.70,
+    base*.80,
+    base*.90,
+    base,
+    base*1.10,
+    base*1.20,
+    base*1.30
+  ];
+
+  prices.forEach(price=>{
+
+    const payment=
+      price*data.paymentRate;
+
+    const refund=
+      price*data.refundRate;
+
+    const variable=
+      data.fixedVariable+
+      payment+
+      refund;
+
+    const contribution=
+      price-variable;
+
+    const margin=
+      price>0
+        ? contribution/price
+        : 0;
+
+    const revenue=
+      price*data.units;
+
+    const monthlyContribution=
+      contribution*data.units;
+
+    const pbt=
+      monthlyContribution-
+      data.totalFixed-
+      data.depreciation-
+      data.interest;
+
+    const tr=document.createElement("tr");
+
+    tr.innerHTML=`
+      <td><strong>${money(price)}</strong></td>
+      <td>${money(variable)}</td>
+      <td class="${contribution>=0?"green":"red"}">
+        ${money(contribution)}
+      </td>
+      <td>${pct(margin*100)}</td>
+      <td>${money(revenue)}</td>
+      <td>${money(monthlyContribution)}</td>
+      <td class="${pbt>=0?"green":"red"}">
+        ${money(pbt)}
+      </td>
+    `;
+
+    table.appendChild(tr);
+
+  });
+}
+
+
+/* ============================================================
+   THREE YEAR FORECAST
+============================================================ */
+
+function buildForecast(data){
+
+  const table=document.getElementById("forecast");
+
+  table.innerHTML="";
+
+  let units=data.units;
+  let price=data.price;
+
+  for(let year=1;year<=3;year++){
+
+    let yUnits=0;
+    let yRevenue=0;
+    let yVariable=0;
+    let yContribution=0;
+    let yFixed=0;
+    let yPBT=0;
+
+    for(let month=1;month<=12;month++){
+
+      const variable=
+          data.product
+        + data.packaging
+        + data.shipping
+        + data.commission
+        + data.warranty
+        + data.otherVariable
+        + price*data.paymentRate
+        + price*data.refundRate;
+
+      const contribution=
+        price-variable;
+
+      const revenue=
+        price*units;
+
+      const variableTotal=
+        variable*units;
+
+      const monthlyContribution=
+        contribution*units;
+
+      const pbt=
+        monthlyContribution-
+        data.totalFixed;
+
+      yUnits+=units;
+      yRevenue+=revenue;
+      yVariable+=variableTotal;
+      yContribution+=monthlyContribution;
+      yFixed+=data.totalFixed;
+      yPBT+=pbt;
+
+      units=
+        units*(1+data.growth);
+    }
+
+    const tax=
+      calculateTax(Math.max(0,yPBT)).total;
+
+    const net=
+      yPBT-tax;
+
+    const margin=
+      yRevenue>0
+        ? net/yRevenue
+        : 0;
+
+    const tr=document.createElement("tr");
+
+    tr.innerHTML=`
+      <td><strong>Year ${year}</strong></td>
+      <td>${num(yUnits)}</td>
+      <td>${money(yRevenue)}</td>
+      <td>${money(yVariable)}</td>
+      <td>${money(yContribution)}</td>
+      <td>${money(yFixed)}</td>
+      <td class="${yPBT>=0?"green":"red"}">
+        ${money(yPBT)}
+      </td>
+      <td>${money(tax)}</td>
+      <td class="${net>=0?"green":"red"}">
+        ${money(net)}
+      </td>
+      <td>${pct(margin*100)}</td>
+    `;
+
+    table.appendChild(tr);
+
+    price=
+      price*(1+data.priceGrowth);
+  }
+}
+
+
+/* ============================================================
+   RESET
+============================================================ */
+
+function resetAll(){
+
+  const defaults={
+
+    price:100,
+    units:500,
+    growth:2,
+    priceGrowth:0,
+
+    productCost:35,
+    packaging:1,
+    shipping:2,
+    salesCommission:0,
+    warranty:0,
+    otherVariable:0,
+    paymentFee:2,
+    refundRate:1,
+
+    rent:3000,
+    salary:8000,
+    utilities:1000,
+    marketing:3000,
+    software:500,
+    insurance:300,
+    accounting:400,
+    otherOpex:1000,
+
+    targetMargin:60,
+    desiredProfit:5000,
+
+    depreciation:500,
+    loan:0,
+    interestRate:5,
+    loanRepayment:0,
+
+    tax1:15,
+    taxLimit1:150000,
+    tax2:17,
+    taxLimit2:600000,
+    tax3:24,
+
+    government:100,
+    governmentAnnual:500,
+
+    reg:300,
+    legal:1500,
+    equipment:10000,
+    renovation:5000,
+    inventory:8000,
+    website:2000,
+    initialMarketing:5000,
+    otherStartup:2000,
+    workingMonths:3,
+    reserve:5000,
+
+    mktSpend:3000,
+    customers:100,
+    ordersCustomer:1.5,
+    lifetime:12
+  };
+
+  Object.keys(defaults).forEach(id=>{
+
+    const el=document.getElementById(id);
+
+    if(el) el.value=defaults[id];
+
+  });
+
+  document.getElementById("smeTax").value="yes";
+
+  calculate();
+}
+
+
+/* ============================================================
+   AUTO RECALCULATION
+============================================================ */
+
+/*
+   This is deliberately attached to EVERY input and select.
+
+   Therefore changing:
+
+   Tax
+   Government fees
+   Selling price
+   Product cost
+   Packaging
+   Shipping
+   Rent
+   Salary
+   Marketing
+   Desired profit
+   Target margin
+   Startup cost
+   Loan
+   Interest
+   etc.
+
+   immediately recalculates the whole model.
+*/
+
+document
+.querySelectorAll("input,select")
+.forEach(el=>{
+
+  el.addEventListener("input",calculate);
+  el.addEventListener("change",calculate);
+
+});
+
+
+/* ============================================================
+   INITIAL RUN
+============================================================ */
+
+calculate();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Profit & Loss Statement</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #eef2f7;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #172033;
+}
+
+.page {
+    width: min(1100px, calc(100% - 30px));
+    margin: 30px auto;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 35px rgba(15, 23, 42, .10);
+    overflow: hidden;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    padding: 28px 34px;
+    background: linear-gradient(135deg, #123b63, #176b9c);
+    color: white;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+    letter-spacing: .5px;
+}
+
+.header p {
+    margin: 6px 0 0;
+    opacity: .82;
+    font-size: 13px;
+}
+
+.header-badge {
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
+    padding: 9px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+}
+
+/* =========================
+   CONTENT
+========================= */
+
+.content {
+    padding: 28px 34px 34px;
+}
+
+.section {
+    margin-bottom: 26px;
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #123b63;
+    text-transform: uppercase;
+    letter-spacing: .7px;
+
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+
+    border-bottom: 2px solid #dbe5ee;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.statement {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.statement td {
+    padding: 9px 10px;
+    border-bottom: 1px solid #edf1f5;
+    font-size: 13px;
+}
+
+.statement td:first-child {
+    width: 55%;
+}
+
+.amount {
+    width: 220px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+/* =========================
+   BLUE INPUT CELLS
+========================= */
+
+.input-cell {
+    background: #cceefa;
+    border-radius: 4px;
+    padding: 0 !important;
+}
+
+.input-cell input {
+    width: 100%;
+
+    border: 0;
+    outline: 0;
+
+    background: transparent;
+
+    padding: 9px 10px;
+
+    text-align: right;
+
+    font-size: 13px;
+    color: #123b63;
+    font-weight: 600;
+
+    font-family: inherit;
+}
+
+.input-cell input::placeholder {
+    color: #7394a7;
+    opacity: .75;
+}
+
+.input-cell input:focus {
+    background: #b7e5f5;
+
+    box-shadow:
+        inset 0 0 0 2px #2695c4;
+}
+
+/* =========================
+   CALCULATED CELLS
+========================= */
+
+.calculated {
+    font-weight: 700;
+    color: #172033;
+
+    text-align: right;
+
+    font-variant-numeric: tabular-nums;
+}
+
+/* =========================
+   GREEN CALCULATION ROWS
+========================= */
+
+.green-row td {
+    background: #dff2d7;
+    font-weight: 700;
+
+    border-bottom: 0;
+}
+
+.green-row.strong td {
+    background: #a9df96;
+    font-weight: 800;
+}
+
+.green-row.dark td {
+    background: #8ed66f;
+    font-weight: 800;
+}
+
+.green-row td:first-child {
+    border-radius: 4px 0 0 4px;
+}
+
+.green-row td:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+/* =========================
+   TAX
+========================= */
+
+.tax-table td {
+    padding: 8px 10px;
+}
+
+.tax-table td:first-child {
+    width: 55%;
+}
+
+.sub-label {
+    font-weight: 700;
+}
+
+/* =========================
+   WARNING
+========================= */
+
+.warning {
+    margin-top: 16px;
+
+    padding: 12px 14px;
+
+    border-radius: 8px;
+
+    background: #fff7e6;
+    border: 1px solid #f3d28b;
+
+    color: #7a5510;
+
+    font-size: 12px;
+}
+
+/* =========================
+   TOOLBAR
+========================= */
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+
+    justify-content: flex-end;
+
+    margin-bottom: 20px;
+
+    flex-wrap: wrap;
+}
+
+button {
+    border: 0;
+
+    border-radius: 8px;
+
+    padding: 10px 16px;
+
+    cursor: pointer;
+
+    font-weight: 700;
+
+    font-size: 12px;
+
+    font-family: inherit;
+
+    transition: .2s ease;
+}
+
+button:hover {
+    transform: translateY(-1px);
+}
+
+.btn-primary {
+    background: #176b9c;
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #12577e;
+}
+
+.btn-secondary {
+    background: #e8eef4;
+    color: #24415b;
+}
+
+.btn-secondary:hover {
+    background: #dbe5ee;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    padding: 18px 34px;
+
+    background: #f7f9fb;
+
+    border-top: 1px solid #e5eaf0;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #7b8794;
+
+    font-size: 11px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width: 700px) {
+
+    .page {
+        width: 100%;
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .content,
+    .header,
+    .footer {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .header {
+        align-items: flex-start;
+        gap: 15px;
+        flex-direction: column;
+    }
+
+    .amount {
+        width: 160px;
+    }
+
+    .statement td {
+        font-size: 12px;
+    }
+
+}
+
+/* =========================
+   PRINT
+========================= */
+
+@media print {
+
+    body {
+        background: white;
+    }
+
+    .page {
+        width: 100%;
+        margin: 0;
+
+        box-shadow: none;
+
+        border-radius: 0;
+    }
+
+    .toolbar {
+        display: none;
+    }
+
+    .header {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .green-row td,
+    .input-cell {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+    .warning {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<div class="page">
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<div class="header">
+
+    <div>
+
+        <h1>
+            PROFIT &amp; LOSS STATEMENT
+        </h1>
+
+        <p>
+            Financial Performance &amp; Tax Computation
+        </p>
+
+    </div>
+
+    <div class="header-badge">
+        RM • Financial Statement
+    </div>
+
+</div>
+
+
+
+<div class="content">
+
+
+<!-- =========================
+     TOOLBAR
+========================= -->
+
+<div class="toolbar">
+
+    <button
+        type="button"
+        class="btn-secondary"
+        onclick="resetForm()">
+
+        Reset Inputs
+
+    </button>
+
+
+    <button
+        type="button"
+        class="btn-primary"
+        onclick="window.print()">
+
+        Print / Save PDF
+
+    </button>
+
+</div>
+
+
+
+<!-- =========================
+     REVENUE
+========================= -->
+
+<div class="section">
+
+    <div class="section-title">
+        Revenue
+    </div>
+
+
+    <table class="statement">
+
+
+        <tr>
+
+            <td>
+                REVENUE 1
+            </td>
+
+            <td class="input-cell amount">
+
+                <input
+                    id="revenue1"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculate()">
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                REVENUE 2
+            </td>
+
+            <td class="input-cell amount">
+
+                <input
+                    id="revenue2"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculate()">
+
+            </td>
+
+        </tr>
+
+
+        <tr class="green-row">
+
+            <td>
+                TOTAL REVENUE
+            </td>
+
+            <td
+                class="calculated"
+                id="totalRevenue">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+</div>
+
+
+
+<!-- =========================
+     COST OF GOODS SOLD
+========================= -->
+
+<div class="section">
+
+    <div class="section-title">
+        Cost of Goods Sold
+    </div>
+
+
+    <table class="statement">
+
+
+        <tr>
+
+            <td>
+                OPENING STOCK
+            </td>
+
+            <td class="input-cell amount">
+
+                <input
+                    id="openingStock"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculate()">
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                PURCHASES 1
+            </td>
+
+            <td class="input-cell amount">
+
+                <input
+                    id="purchases1"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculate()">
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                PURCHASES 2
+            </td>
+
+            <td class="input-cell amount">
+
+                <input
+                    id="purchases2"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculate()">
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                (-) PURCHASES RETURN
+            </td>
+
+            <td class="input-cell amount">
+
+                <input
+                    id="purchasesReturn"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculate()">
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                (-) CLOSING STOCK
+            </td>
+
+            <td class="input-cell amount">
+
+                <input
+                    id="closingStock"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculate()">
+
+            </td>
+
+        </tr>
+
+
+        <tr class="green-row">
+
+            <td>
+                COST OF GOODS SOLD
+            </td>
+
+            <td
+                class="calculated"
+                id="cogs">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+</div>
+
+
+
+<!-- =========================
+     GROSS PROFIT
+========================= -->
+
+<div class="section">
+
+    <table class="statement">
+
+
+        <tr class="green-row strong">
+
+            <td>
+                GROSS PROFIT
+            </td>
+
+            <td
+                class="calculated"
+                id="grossProfit">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+</div>
+
+
+
+<!-- =========================
+     EXPENSES
+========================= -->
+
+<div class="section">
+
+    <div class="section-title">
+        Operating Expenses
+    </div>
+
+
+    <table class="statement">
+
+
+        <tr>
+
+            <td>
+                (-) EXPENSES 1
+            </td>
+
+            <td class="input-cell amount">
+
+                <input
+                    id="expense1"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculate()">
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                (-) EXPENSES 2
+            </td>
+
+            <td class="input-cell amount">
+
+                <input
+                    id="expense2"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculate()">
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                (-) EXPENSES 3
+            </td>
+
+            <td class="input-cell amount">
+
+                <input
+                    id="expense3"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculate()">
+
+            </td>
+
+        </tr>
+
+
+        <tr class="green-row">
+
+            <td>
+                (-) TOTAL EXPENSES
+            </td>
+
+            <td
+                class="calculated"
+                id="totalExpenses">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+</div>
+
+
+
+<!-- =========================
+     NET PROFIT
+========================= -->
+
+<div class="section">
+
+    <table class="statement">
+
+
+        <tr class="green-row dark">
+
+            <td>
+                NET PROFIT/(LOSS) BEFORE TAX
+            </td>
+
+            <td
+                class="calculated"
+                id="netProfit">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+</div>
+
+
+
+<!-- =========================
+     TAX COMPUTATION
+========================= -->
+
+<div class="section">
+
+    <div class="section-title">
+        Tax Computation
+    </div>
+
+
+    <table class="statement tax-table">
+
+
+        <tr>
+
+            <td class="sub-label">
+                CHARGEABLE INCOME
+            </td>
+
+            <td
+                class="calculated"
+                id="chargeableIncome">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Tax at 15 % of 150,000
+            </td>
+
+            <td
+                class="calculated"
+                id="tax15">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Tax at 17 % of 450,000
+            </td>
+
+            <td
+                class="calculated"
+                id="tax17">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Tax at 24 %
+            </td>
+
+            <td
+                class="calculated"
+                id="tax24">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr class="green-row">
+
+            <td>
+                Tax payable
+            </td>
+
+            <td
+                class="calculated"
+                id="taxPayable">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Less : Instalment paid
+            </td>
+
+            <td class="input-cell amount">
+
+                <input
+                    id="instalment"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculate()">
+
+            </td>
+
+        </tr>
+
+
+        <tr class="green-row strong">
+
+            <td>
+                Balance of tax payable / (Refundable)
+            </td>
+
+            <td
+                class="calculated"
+                id="balanceTax">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+</div>
+
+
+
+<!-- =========================
+     CP204 / CP204A
+========================= -->
+
+<div class="section">
+
+    <div class="section-title">
+        CP204 / CP204A PENALTY CHECK
+    </div>
+
+
+    <table class="statement">
+
+
+        <tr>
+
+            <td>
+                <b>Actual Tax Payable</b>
+            </td>
+
+            <td
+                class="calculated"
+                id="actualTax">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                CP204/CP204A Estimate
+            </td>
+
+            <td class="input-cell amount">
+
+                <input
+                    id="cpEstimate"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    oninput="calculate()">
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Difference
+            </td>
+
+            <td
+                class="calculated"
+                id="difference">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                30% of Actual Tax
+            </td>
+
+            <td
+                class="calculated"
+                id="thirtyPercent">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr>
+
+            <td>
+                Excess Above 30%
+            </td>
+
+            <td
+                class="calculated"
+                id="excess">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+        <tr class="green-row">
+
+            <td>
+                <b>Penalty @ 10%</b>
+            </td>
+
+            <td
+                class="calculated"
+                id="penalty">
+
+                RM 0.00
+
+            </td>
+
+        </tr>
+
+
+    </table>
+
+
+    <div class="warning">
+
+        <strong>Review Note:</strong>
+
+        This calculation is provided as a working statement.
+        Please verify the applicable tax rules and CP204 / CP204A
+        treatment before submission.
+
+    </div>
+
+
+</div>
+
+
+</div>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<div class="footer">
+
+    <span>
+        PROFIT &amp; LOSS STATEMENT
+    </span>
+
+    <span>
+        All amounts in RM
+    </span>
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   GET NUMBER
+========================= */
+
+function num(id) {
+
+    const element = document.getElementById(id);
+
+    const value = parseFloat(element.value);
+
+    return isNaN(value) ? 0 : value;
+
+}
+
+
+
+/* =========================
+   FORMAT MONEY
+========================= */
+
+function money(value) {
+
+    return "RM " + value.toLocaleString("en-MY", {
+
+        minimumFractionDigits: 2,
+
+        maximumFractionDigits: 2
+
+    });
+
+}
+
+
+
+/* =========================
+   CALCULATE
+========================= */
+
+function calculate() {
+
+
+    /* =========================
+       REVENUE
+    ========================= */
+
+    const revenue1 =
+        num("revenue1");
+
+    const revenue2 =
+        num("revenue2");
+
+
+    const totalRevenue =
+        revenue1 + revenue2;
+
+
+
+    /* =========================
+       COST OF GOODS SOLD
+    ========================= */
+
+    const openingStock =
+        num("openingStock");
+
+    const purchases1 =
+        num("purchases1");
+
+    const purchases2 =
+        num("purchases2");
+
+    const purchasesReturn =
+        num("purchasesReturn");
+
+    const closingStock =
+        num("closingStock");
+
+
+    /*
+        COGS =
+        Opening Stock
+        + Purchases
+        - Purchases Return
+        - Closing Stock
+    */
+
+    const cogs =
+        openingStock
+        + purchases1
+        + purchases2
+        - purchasesReturn
+        - closingStock;
+
+
+
+    /* =========================
+       GROSS PROFIT
+    ========================= */
+
+    const grossProfit =
+        totalRevenue - cogs;
+
+
+
+    /* =========================
+       EXPENSES
+    ========================= */
+
+    const expense1 =
+        num("expense1");
+
+    const expense2 =
+        num("expense2");
+
+    const expense3 =
+        num("expense3");
+
+
+    const totalExpenses =
+        expense1
+        + expense2
+        + expense3;
+
+
+
+    /* =========================
+       NET PROFIT
+    ========================= */
+
+    const netProfit =
+        grossProfit - totalExpenses;
+
+
+
+    /* =========================
+       TAXABLE / CHARGEABLE INCOME
+    ========================= */
+
+    const chargeableIncome =
+        Math.max(0, netProfit);
+
+
+
+    /* =========================
+       TAX COMPUTATION
+       
+       First RM150,000 @ 15%
+       Next RM450,000 @ 17%
+       Balance @ 24%
+    ========================= */
+
+    const firstBand =
+        Math.min(
+            chargeableIncome,
+            150000
+        );
+
+
+    const secondBand =
+        Math.min(
+            Math.max(
+                chargeableIncome - 150000,
+                0
+            ),
+            450000
+        );
+
+
+    const thirdBand =
+        Math.max(
+            chargeableIncome - 600000,
+            0
+        );
+
+
+    const tax15 =
+        firstBand * 0.15;
+
+
+    const tax17 =
+        secondBand * 0.17;
+
+
+    const tax24 =
+        thirdBand * 0.24;
+
+
+    const taxPayable =
+        tax15
+        + tax17
+        + tax24;
+
+
+
+    /* =========================
+       INSTALMENT
+    ========================= */
+
+    const instalment =
+        num("instalment");
+
+
+    const balanceTax =
+        taxPayable - instalment;
+
+
+
+    /* =========================
+       CP204 / CP204A
+    ========================= */
+
+    /*
+       For penalty check,
+       use positive balance only.
+    */
+
+    const actualTax =
+        Math.max(
+            0,
+            balanceTax
+        );
+
+
+    const cpEstimate =
+        num("cpEstimate");
+
+
+    const difference =
+        Math.max(
+            0,
+            actualTax - cpEstimate
+        );
+
+
+    const thirtyPercent =
+        actualTax * 0.30;
+
+
+    const excess =
+        Math.max(
+            0,
+            difference - thirtyPercent
+        );
+
+
+    const penalty =
+        excess * 0.10;
+
+
+
+    /* =========================
+       UPDATE RESULTS
+    ========================= */
+
+    document.getElementById(
+        "totalRevenue"
+    ).textContent =
+        money(totalRevenue);
+
+
+    document.getElementById(
+        "cogs"
+    ).textContent =
+        money(cogs);
+
+
+    document.getElementById(
+        "grossProfit"
+    ).textContent =
+        money(grossProfit);
+
+
+    document.getElementById(
+        "totalExpenses"
+    ).textContent =
+        money(totalExpenses);
+
+
+    document.getElementById(
+        "netProfit"
+    ).textContent =
+        money(netProfit);
+
+
+    document.getElementById(
+        "chargeableIncome"
+    ).textContent =
+        money(chargeableIncome);
+
+
+    document.getElementById(
+        "tax15"
+    ).textContent =
+        money(tax15);
+
+
+    document.getElementById(
+        "tax17"
+    ).textContent =
+        money(tax17);
+
+
+    document.getElementById(
+        "tax24"
+    ).textContent =
+        money(tax24);
+
+
+    document.getElementById(
+        "taxPayable"
+    ).textContent =
+        money(taxPayable);
+
+
+    document.getElementById(
+        "balanceTax"
+    ).textContent =
+        money(balanceTax);
+
+
+    document.getElementById(
+        "actualTax"
+    ).textContent =
+        money(actualTax);
+
+
+    document.getElementById(
+        "difference"
+    ).textContent =
+        money(difference);
+
+
+    document.getElementById(
+        "thirtyPercent"
+    ).textContent =
+        money(thirtyPercent);
+
+
+    document.getElementById(
+        "excess"
+    ).textContent =
+        money(excess);
+
+
+    document.getElementById(
+        "penalty"
+    ).textContent =
+        money(penalty);
+
+}
+
+
+
+/* =========================
+   RESET ALL INPUTS
+========================= */
+
+function resetForm() {
+
+    /*
+       Clear every blue input field.
+    */
+
+    document
+        .querySelectorAll(".input-cell input")
+        .forEach(function(input) {
+
+            input.value = "";
+
+        });
+
+
+    /*
+       Recalculate everything.
+       All green fields become RM 0.00.
+    */
+
+    calculate();
+
+}
+
+
+
+/* =========================
+   INITIAL STATE
+========================= */
+
+calculate();
+
+
+</script>
+
+
+</body>
+</html>
