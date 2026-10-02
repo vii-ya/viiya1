@@ -9,9 +9,9 @@
 
   <style>
 
-    /* =========================================================
-       GLOBAL
-    ========================================================= */
+    /* =====================================================
+       BASIC
+    ===================================================== */
 
     * {
       box-sizing: border-box;
@@ -32,7 +32,7 @@
       --text: #f8fafc;
       --muted: #94a3b8;
 
-      --border: rgba(255, 255, 255, 0.12);
+      --border: rgba(255,255,255,0.12);
     }
 
     html {
@@ -52,19 +52,19 @@
       background:
         radial-gradient(
           circle at 10% 20%,
-          rgba(0, 234, 255, 0.13),
+          rgba(0,234,255,0.13),
           transparent 30%
         ),
 
         radial-gradient(
           circle at 90% 10%,
-          rgba(139, 92, 246, 0.16),
+          rgba(139,92,246,0.16),
           transparent 30%
         ),
 
         radial-gradient(
           circle at 50% 100%,
-          rgba(236, 72, 153, 0.10),
+          rgba(236,72,153,0.10),
           transparent 35%
         ),
 
@@ -74,15 +74,14 @@
     }
 
 
-    /* =========================================================
-       FUTURISTIC GRID
-    ========================================================= */
+    /* =====================================================
+       FUTURE GRID
+    ===================================================== */
 
     body::before {
       content: "";
 
       position: fixed;
-
       inset: 0;
 
       pointer-events: none;
@@ -110,9 +109,9 @@
     }
 
 
-    /* =========================================================
-       GLOWING ORBS
-    ========================================================= */
+    /* =====================================================
+       GLOWING BACKGROUND
+    ===================================================== */
 
     .orb {
       position: fixed;
@@ -124,7 +123,7 @@
 
       filter: blur(80px);
 
-      opacity: 0.30;
+      opacity: 0.3;
 
       pointer-events: none;
 
@@ -163,18 +162,15 @@
     }
 
 
-    /* =========================================================
+    /* =====================================================
        HEADER
-    ========================================================= */
+    ===================================================== */
 
     header {
-      position: relative;
-
       padding: 40px 20px 35px;
 
       text-align: center;
     }
-
 
     .logo {
       width: 78px;
@@ -187,18 +183,18 @@
 
       margin-bottom: 18px;
 
-      border: 1px solid rgba(0, 234, 255, 0.55);
+      border:
+        1px solid
+        rgba(0,234,255,0.55);
 
       border-radius: 22px;
 
       background:
-        rgba(0, 234, 255, 0.05);
+        rgba(0,234,255,0.05);
 
       box-shadow:
-        0 0 30px rgba(0, 234, 255, 0.25),
-
-        inset 0 0 25px
-        rgba(0, 234, 255, 0.05);
+        0 0 30px
+        rgba(0,234,255,0.25);
 
       font-size: 32px;
 
@@ -206,7 +202,6 @@
 
       color: var(--cyan);
     }
-
 
     header h1 {
       font-size:
@@ -226,23 +221,19 @@
       background-size: 300% auto;
 
       -webkit-background-clip: text;
-
       -webkit-text-fill-color: transparent;
 
       animation:
         shine 5s linear infinite;
     }
 
-
     @keyframes shine {
 
       to {
-        background-position:
-          300% center;
+        background-position: 300% center;
       }
 
     }
-
 
     header p {
       margin-top: 12px;
@@ -257,9 +248,11 @@
     }
 
 
-    /* =========================================================
+    /* =====================================================
        NAVIGATION
-    ========================================================= */
+       
+       EASY TO ADD NEW PAGES HERE
+    ===================================================== */
 
     .nav-wrapper {
       position: sticky;
@@ -274,9 +267,8 @@
           calc(100% - 30px)
         );
 
-      margin: 0 auto;
+      margin: auto;
     }
-
 
     nav {
       display: flex;
@@ -292,7 +284,7 @@
       padding: 10px;
 
       background:
-        rgba(8, 15, 32, 0.78);
+        rgba(8,15,32,0.78);
 
       backdrop-filter:
         blur(20px);
@@ -301,15 +293,15 @@
         blur(20px);
 
       border:
-        1px solid var(--border);
+        1px solid
+        var(--border);
 
       border-radius: 20px;
 
       box-shadow:
         0 15px 50px
-        rgba(0, 0, 0, 0.30);
+        rgba(0,0,0,0.3);
     }
-
 
     nav a {
       display: flex;
@@ -333,29 +325,26 @@
 
       transition:
         all 0.3s ease;
-
-      white-space: nowrap;
     }
-
 
     nav a:hover {
       color: white;
 
       background:
-        rgba(0, 234, 255, 0.10);
+        rgba(0,234,255,0.1);
 
       transform:
         translateY(-2px);
 
       box-shadow:
         0 0 20px
-        rgba(0, 234, 255, 0.12);
+        rgba(0,234,255,0.12);
     }
 
 
-    /* =========================================================
+    /* =====================================================
        STORE BUTTON
-    ========================================================= */
+    ===================================================== */
 
     nav .store-link {
       margin-left: 10px;
@@ -365,19 +354,18 @@
       background:
         linear-gradient(
           135deg,
-          rgba(0, 234, 255, 0.16),
-          rgba(139, 92, 246, 0.18)
+          rgba(0,234,255,0.16),
+          rgba(139,92,246,0.18)
         );
 
       border:
         1px solid
-        rgba(0, 234, 255, 0.45);
+        rgba(0,234,255,0.45);
 
       box-shadow:
         0 0 15px
-        rgba(0, 234, 255, 0.10);
+        rgba(0,234,255,0.1);
     }
-
 
     nav .store-link:hover {
       color: var(--cyan);
@@ -387,16 +375,13 @@
 
       box-shadow:
         0 0 25px
-        rgba(0, 234, 255, 0.30);
-
-      transform:
-        translateY(-3px);
+        rgba(0,234,255,0.3);
     }
 
 
-    /* =========================================================
+    /* =====================================================
        MAIN
-    ========================================================= */
+    ===================================================== */
 
     main {
       width:
@@ -412,16 +397,15 @@
     }
 
 
-    /* =========================================================
+    /* =====================================================
        HERO
-    ========================================================= */
+    ===================================================== */
 
     .hero {
       text-align: center;
 
       margin-bottom: 65px;
     }
-
 
     .status {
       display: inline-flex;
@@ -437,15 +421,14 @@
 
       border:
         1px solid
-        rgba(0, 234, 255, 0.25);
+        rgba(0,234,255,0.25);
 
       border-radius: 999px;
 
       background:
-        rgba(0, 234, 255, 0.06);
+        rgba(0,234,255,0.06);
 
-      color:
-        var(--cyan);
+      color: var(--cyan);
 
       font-size: 11px;
 
@@ -453,7 +436,6 @@
 
       text-transform: uppercase;
     }
-
 
     .status::before {
       content: "";
@@ -471,7 +453,6 @@
         var(--cyan);
     }
 
-
     .hero h2 {
       font-size:
         clamp(35px, 6vw, 58px);
@@ -481,24 +462,20 @@
       margin-bottom: 18px;
     }
 
-
     .hero h2 span {
-      color:
-        var(--cyan);
+      color: var(--cyan);
 
       text-shadow:
         0 0 25px
-        rgba(0, 234, 255, 0.40);
+        rgba(0,234,255,0.4);
     }
-
 
     .hero p {
       max-width: 650px;
 
       margin: auto;
 
-      color:
-        var(--muted);
+      color: var(--muted);
 
       font-size: 17px;
 
@@ -506,9 +483,9 @@
     }
 
 
-    /* =========================================================
+    /* =====================================================
        SECTION TITLE
-    ========================================================= */
+    ===================================================== */
 
     .section-header {
       display: flex;
@@ -520,17 +497,14 @@
       margin-bottom: 20px;
     }
 
-
     .section-header h2 {
       font-size: 24px;
 
       letter-spacing: 1px;
     }
 
-
     .section-header span {
-      color:
-        var(--muted);
+      color: var(--muted);
 
       font-size: 12px;
 
@@ -538,9 +512,9 @@
     }
 
 
-    /* =========================================================
+    /* =====================================================
        TOOL GRID
-    ========================================================= */
+    ===================================================== */
 
     .tools-grid {
       display: grid;
@@ -555,9 +529,11 @@
     }
 
 
-    /* =========================================================
+    /* =====================================================
        TOOL CARD
-    ========================================================= */
+       
+       ADD NEW TOOL CARDS DIRECTLY HERE
+    ===================================================== */
 
     .tool-card {
       position: relative;
@@ -591,7 +567,6 @@
         0.35s ease;
     }
 
-
     .tool-card::before {
       content: "";
 
@@ -617,7 +592,6 @@
         0.35s ease;
     }
 
-
     .tool-card:hover {
       transform:
         translateY(-8px);
@@ -627,9 +601,8 @@
 
       box-shadow:
         0 20px 50px
-        rgba(0, 0, 0, 0.35);
+        rgba(0,0,0,0.35);
     }
-
 
     .tool-card:hover::before {
       opacity: 0.35;
@@ -639,9 +612,9 @@
     }
 
 
-    /* =========================================================
+    /* =====================================================
        TOOL ICON
-    ========================================================= */
+    ===================================================== */
 
     .tool-icon {
       position: relative;
@@ -663,11 +636,10 @@
 
       border:
         1px solid
-        rgba(255,255,255,0.10);
+        rgba(255,255,255,0.1);
 
       font-size: 25px;
     }
-
 
     .tool-card h3 {
       position: relative;
@@ -677,26 +649,22 @@
       margin-bottom: 8px;
     }
 
-
     .tool-card p {
       position: relative;
 
-      color:
-        var(--muted);
+      max-width: 270px;
+
+      color: var(--muted);
 
       font-size: 13px;
 
       line-height: 1.5;
-
-      max-width: 270px;
     }
-
 
     .tool-arrow {
       position: absolute;
 
       right: 22px;
-
       bottom: 20px;
 
       color:
@@ -708,16 +676,15 @@
         0.3s;
     }
 
-
     .tool-card:hover .tool-arrow {
       transform:
         translateX(5px);
     }
 
 
-    /* =========================================================
-       DIFFERENT CARD COLORS
-    ========================================================= */
+    /* =====================================================
+       CARD COLORS
+    ===================================================== */
 
     .cyan {
       --card-color: #00eaff;
@@ -744,68 +711,30 @@
     }
 
 
-    /* =========================================================
-       ADD-NEW-TOOL INFORMATION
-    ========================================================= */
-
-    .add-info {
-      margin-top: 35px;
-
-      padding: 20px 24px;
-
-      border:
-        1px solid
-        rgba(0, 234, 255, 0.15);
-
-      border-radius: 18px;
-
-      background:
-        rgba(0, 234, 255, 0.035);
-
-      color:
-        var(--muted);
-
-      font-size: 13px;
-
-      line-height: 1.6;
-    }
-
-
-    .add-info strong {
-      color:
-        var(--cyan);
-    }
-
-
-    /* =========================================================
+    /* =====================================================
        FOOTER
-    ========================================================= */
+    ===================================================== */
 
     footer {
-      padding:
-        30px;
+      padding: 30px;
 
-      text-align:
-        center;
+      text-align: center;
 
       border-top:
         1px solid
         rgba(255,255,255,0.08);
 
-      color:
-        #64748b;
+      color: #64748b;
 
-      font-size:
-        12px;
+      font-size: 12px;
 
-      letter-spacing:
-        1px;
+      letter-spacing: 1px;
     }
 
 
-    /* =========================================================
+    /* =====================================================
        MOBILE
-    ========================================================= */
+    ===================================================== */
 
     @media (max-width: 600px) {
 
@@ -837,8 +766,7 @@
       }
 
       .tools-grid {
-        grid-template-columns:
-          1fr;
+        grid-template-columns: 1fr;
       }
 
     }
@@ -850,17 +778,18 @@
 <body>
 
 
-  <!-- =======================================================
-       BACKGROUND EFFECTS
-  ======================================================== -->
+  <!-- =====================================================
+       BACKGROUND
+  ====================================================== -->
 
   <div class="orb one"></div>
   <div class="orb two"></div>
 
 
-  <!-- =======================================================
+
+  <!-- =====================================================
        HEADER
-  ======================================================== -->
+  ====================================================== -->
 
   <header>
 
@@ -879,33 +808,98 @@
   </header>
 
 
-  <!-- =======================================================
+
+  <!-- =====================================================
        NAVIGATION
-       
-       IMPORTANT:
-       You DON'T need to manually write the navigation.
-       JavaScript below creates it from the menu list.
-  ======================================================== -->
+
+       ⭐ ADD NEW PAGES HERE ⭐
+
+       Just copy one line:
+
+       <a href="1/example.html">⭐ Example</a>
+
+  ====================================================== -->
 
   <div class="nav-wrapper">
 
-    <nav id="mainNavigation">
-      <!-- Navigation generated automatically -->
+    <nav>
+
+      <!-- HOME -->
+      <a href="index.html">
+        🏠 Home
+      </a>
+
+      <!-- HOUSE -->
+      <a href="1/house.html">
+        🏡 House
+      </a>
+
+      <!-- CAR -->
+      <a href="1/car.html">
+        🚗 Car
+      </a>
+
+      <!-- CALCHUB -->
+      <a href="1/calchub.html">
+        💰 CalcHub
+      </a>
+
+      <!-- CHINESE CALENDAR -->
+      <a href="1/chinesecalendar.html">
+        📅 Calendar
+      </a>
+
+      <!-- PLAY -->
+      <a href="1/play.html">
+        🎮 Play
+      </a>
+
+
+      <!-- =================================================
+           WOOCOMMERCE STORE
+
+           CHANGE THIS URL TO YOUR STORE
+      ================================================== -->
+
+      <a
+        href="https://yourstore.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="store-link">
+
+        🛒 Store ↗
+
+      </a>
+
+
+      <!-- =================================================
+           ⭐ ADD MORE NAVIGATION HERE ⭐
+
+           Example:
+
+           <a href="1/bmi.html">
+             🧮 BMI
+           </a>
+
+      ================================================== -->
+
+
     </nav>
 
   </div>
 
 
-  <!-- =======================================================
-       MAIN CONTENT
-  ======================================================== -->
+
+  <!-- =====================================================
+       MAIN
+  ====================================================== -->
 
   <main>
 
 
-    <!-- =====================================================
+    <!-- ===================================================
          HERO
-    ====================================================== -->
+    ==================================================== -->
 
     <section class="hero">
 
@@ -914,26 +908,36 @@
       </div>
 
       <h2>
+
         Welcome to the
         <br>
-        <span>IVY Future Hub</span>
+
+        <span>
+          IVY Future Hub
+        </span>
+
       </h2>
 
       <p>
+
         A modern collection of smart calculators,
         useful tools, calendars and interactive
         experiences — designed for the future.
+
       </p>
 
     </section>
 
 
 
-    <!-- =====================================================
+    <!-- ===================================================
          TOOLS
-    ====================================================== -->
+
+         ⭐ ADD NEW TOOLS HERE ⭐
+    ==================================================== -->
 
     <section id="tools">
+
 
       <div class="section-header">
 
@@ -948,19 +952,210 @@
       </div>
 
 
-      <div
-        class="tools-grid"
-        id="toolsGrid">
-      </div>
+
+      <div class="tools-grid">
+
+<!-- =================================================
+             1 CALCULATOR
+        ================================================== -->
+
+        <a
+          href="1/1.html"
+          class="tool-card green">
+
+          <div class="tool-icon">
+            🏡
+          </div>
+
+          <h3>
+            House Calculator
+          </h3>
+
+          <p>
+            Calculate house purchase costs
+            and explore property financing.
+          </p>
+
+          <span class="tool-arrow">
+            →
+          </span>
+
+        </a>
+
+        <!-- =================================================
+             HOUSE CALCULATOR
+        ================================================== -->
+
+        <a
+          href="1/house.html"
+          class="tool-card green">
+
+          <div class="tool-icon">
+            🏡
+          </div>
+
+          <h3>
+            House Calculator
+          </h3>
+
+          <p>
+            Calculate house purchase costs
+            and explore property financing.
+          </p>
+
+          <span class="tool-arrow">
+            →
+          </span>
+
+        </a>
 
 
-      <div class="add-info">
 
-        💡 <strong>Easy to expand:</strong>
-        To add another tool in the future,
-        you only need to add one item to the
-        <strong>tools</strong> list near the bottom
-        of this file.
+        <!-- =================================================
+             CAR LOAN
+        ================================================== -->
+
+        <a
+          href="1/car.html"
+          class="tool-card orange">
+
+          <div class="tool-icon">
+            🚗
+          </div>
+
+          <h3>
+            Car Loan Calculator
+          </h3>
+
+          <p>
+            Calculate vehicle loan payments
+            and financing costs.
+          </p>
+
+          <span class="tool-arrow">
+            →
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             CALCHUB
+        ================================================== -->
+
+        <a
+          href="1/calchub.html"
+          class="tool-card purple">
+
+          <div class="tool-icon">
+            💰
+          </div>
+
+          <h3>
+            CalcHub
+          </h3>
+
+          <p>
+            Your central hub for useful
+            calculations and financial tools.
+          </p>
+
+          <span class="tool-arrow">
+            →
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             CHINESE CALENDAR
+        ================================================== -->
+
+        <a
+          href="1/chinesecalendar.html"
+          class="tool-card pink">
+
+          <div class="tool-icon">
+            📅
+          </div>
+
+          <h3>
+            Chinese Calendar
+          </h3>
+
+          <p>
+            Explore dates and information
+            from the Chinese calendar.
+          </p>
+
+          <span class="tool-arrow">
+            →
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             PLAY
+        ================================================== -->
+
+        <a
+          href="1/play.html"
+          class="tool-card blue">
+
+          <div class="tool-icon">
+            🎮
+          </div>
+
+          <h3>
+            Play
+          </h3>
+
+          <p>
+            Enter the interactive area
+            and explore something fun.
+          </p>
+
+          <span class="tool-arrow">
+            →
+          </span>
+
+        </a>
+
+
+
+        <!-- =================================================
+             ⭐ ADD YOUR NEXT TOOL HERE ⭐
+
+             COPY THIS:
+
+             <a
+               href="1/bmi.html"
+               class="tool-card cyan">
+
+               <div class="tool-icon">
+                 🧮
+               </div>
+
+               <h3>
+                 BMI Calculator
+               </h3>
+
+               <p>
+                 Calculate BMI quickly and easily.
+               </p>
+
+               <span class="tool-arrow">
+                 →
+               </span>
+
+             </a>
+
+        ================================================== -->
+
 
       </div>
 
@@ -970,9 +1165,10 @@
   </main>
 
 
-  <!-- =======================================================
+
+  <!-- =====================================================
        FOOTER
-  ======================================================== -->
+  ====================================================== -->
 
   <footer>
 
@@ -983,307 +1179,6 @@
     © 2026
 
   </footer>
-
-
-
-  <!-- =======================================================
-       JAVASCRIPT
-       
-       THIS IS THE IMPORTANT PART.
-       
-       Add your navigation and tools here.
-  ======================================================== -->
-
-  <script>
-
-
-    /* =======================================================
-       NAVIGATION MENU
-
-       ADD / REMOVE MENU ITEMS HERE.
-
-       type:
-       internal = your own page
-       external = another website
-    ======================================================== */
-
-    const menu = [
-
-      {
-        icon: "🏠",
-        name: "Home",
-        url: "index.html"
-      },
-
-      {
-        icon: "🏡",
-        name: "House",
-        url: "1/house.html"
-      },
-
-      {
-        icon: "🚗",
-        name: "Car",
-        url: "1/car.html"
-      },
-
-      {
-        icon: "💰",
-        name: "CalcHub",
-        url: "1/calchub.html"
-      },
-
-      {
-        icon: "📅",
-        name: "Calendar",
-        url: "1/chinesecalendar.html"
-      },
-
-      {
-        icon: "🎮",
-        name: "Play",
-        url: "1/play.html"
-      },
-
-      /* =====================================================
-         YOUR WOOCOMMERCE STORE
-      ====================================================== */
-
-      {
-        icon: "🛒",
-        name: "Store ↗",
-        url: "https://yourstore.com",
-        external: true,
-        store: true
-      }
-
-    ];
-
-
-
-    /* =======================================================
-       CREATE NAVIGATION
-    ======================================================== */
-
-    const navigation =
-      document.getElementById(
-        "mainNavigation"
-      );
-
-
-    menu.forEach(item => {
-
-      const link =
-        document.createElement("a");
-
-
-      link.href = item.url;
-
-
-      link.innerHTML = `
-        ${item.icon}
-        <span>${item.name}</span>
-      `;
-
-
-      /* External website */
-
-      if (item.external) {
-
-        link.target = "_blank";
-
-        link.rel =
-          "noopener noreferrer";
-
-      }
-
-
-      /* Special Store styling */
-
-      if (item.store) {
-
-        link.classList.add(
-          "store-link"
-        );
-
-      }
-
-
-      navigation.appendChild(link);
-
-    });
-
-
-
-    /* =======================================================
-       TOOLS LIST
-
-       THIS IS WHERE YOU ADD NEW TOOLS.
-
-       Each tool needs:
-
-       icon
-       name
-       description
-       url
-       color
-
-       Available colors:
-
-       cyan
-       green
-       orange
-       purple
-       pink
-       blue
-    ======================================================== */
-
-    const tools = [
-
-      {
-        icon: "🏡",
-        name: "House Calculator",
-        description:
-          "Calculate house purchase costs and explore property financing.",
-        url: "1/house.html",
-        color: "green"
-      },
-
-
-      {
-        icon: "🚗",
-        name: "Car Loan Calculator",
-        description:
-          "Calculate vehicle loan payments and financing costs.",
-        url: "1/car.html",
-        color: "orange"
-      },
-
-
-      {
-        icon: "💰",
-        name: "CalcHub",
-        description:
-          "Your central hub for useful calculations and financial tools.",
-        url: "1/calchub.html",
-        color: "purple"
-      },
-
-
-      {
-        icon: "📅",
-        name: "Chinese Calendar",
-        description:
-          "Explore dates and information from the Chinese calendar.",
-        url: "1/chinesecalendar.html",
-        color: "pink"
-      },
-
-
-      {
-        icon: "🎮",
-        name: "Play",
-        description:
-          "Enter the interactive area and explore something fun.",
-        url: "1/play.html",
-        color: "blue"
-      },
-
-
-      /* =====================================================
-         ADD MORE TOOLS BELOW THIS LINE
-      ====================================================== */
-
-      /*
-      {
-        icon: "🧮",
-        name: "BMI Calculator",
-        description:
-          "Calculate BMI and explore health-related measurements.",
-        url: "1/bmi.html",
-        color: "cyan"
-      },
-      */
-
-
-      /*
-      {
-        icon: "⏱️",
-        name: "Timer",
-        description:
-          "A simple and useful countdown timer.",
-        url: "1/timer.html",
-        color: "cyan"
-      },
-      */
-
-
-      /*
-      {
-        icon: "📊",
-        name: "Statistics",
-        description:
-          "Useful statistics and data calculations.",
-        url: "1/statistics.html",
-        color: "purple"
-      }
-      */
-
-    ];
-
-
-
-    /* =======================================================
-       CREATE TOOL CARDS
-    ======================================================== */
-
-    const toolsGrid =
-      document.getElementById(
-        "toolsGrid"
-      );
-
-
-    tools.forEach(tool => {
-
-      const card =
-        document.createElement("a");
-
-
-      card.href =
-        tool.url;
-
-
-      card.className =
-        `tool-card ${tool.color}`;
-
-
-      card.innerHTML = `
-
-        <div class="tool-icon">
-          ${tool.icon}
-        </div>
-
-        <h3>
-          ${tool.name}
-        </h3>
-
-        <p>
-          ${tool.description}
-        </p>
-
-        <span class="tool-arrow">
-          →
-        </span>
-
-      `;
-
-
-      toolsGrid.appendChild(card);
-
-    });
-
-
-  </script>
 
 
 </body>
