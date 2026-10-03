@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Quick Check Tax Computation</title>
+
+
+<style>
+
+/* =========================================================
+   GLOBAL
+========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 30px 15px;
+
+    background: #eef3f7;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color: #172033;
+}
+
+.container {
+    width: min(1050px, 100%);
+    margin: auto;
+}
+
+
+/* =========================================================
+   MAIN CARD
+========================================================= */
+
+.main-card {
+
+    background: #ffffff;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 12px 40px rgba(15, 40, 65, 0.10);
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header {
+
+    background:
+        linear-gradient(
+            135deg,
+            #103b61 0%,
+            #176b9c 100%
+        );
+
+    color: #ffffff;
+
+    padding: 28px 32px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+}
+
+.header-left h1 {
+
+    margin: 0;
+
+    font-size: 24px;
+
+    font-weight: 800;
+
+    letter-spacing: .5px;
+}
+
+.header-left p {
+
+    margin: 7px 0 0;
+
+    font-size: 13px;
+
+    color: rgba(255,255,255,.78);
+}
+
+.header-tag {
+
+    padding: 9px 15px;
+
+    border-radius: 30px;
+
+    background: rgba(255,255,255,.13);
+
+    border: 1px solid rgba(255,255,255,.20);
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   BODY
+========================================================= */
+
+.content {
+
+    padding: 30px 34px 35px;
+}
+
+
+/* =========================================================
+   TOOLBAR
+========================================================= */
+
+.toolbar {
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-bottom: 25px;
+
+    flex-wrap: wrap;
+}
+
+button {
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 10px 17px;
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
+}
+
+button:hover {
+
+    transform: translateY(-1px);
+}
+
+.btn-clear {
+
+    background: #edf1f5;
+
+    color: #29445c;
+}
+
+.btn-clear:hover {
+
+    background: #dfe7ee;
+}
+
+.btn-print {
+
+    background: #176b9c;
+
+    color: #ffffff;
+}
+
+.btn-print:hover {
+
+    background: #125b84;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.page-title {
+
+    margin-bottom: 25px;
+}
+
+.page-title h2 {
+
+    margin: 0;
+
+    color: #123b63;
+
+    font-size: 21px;
+
+    font-weight: 800;
+
+    letter-spacing: .4px;
+}
+
+.page-title p {
+
+    margin: 6px 0 0;
+
+    color: #7a8794;
+
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   PROFIT INPUT CARD
+========================================================= */
+
+.profit-card {
+
+    background:
+        linear-gradient(
+            135deg,
+            #f3f8fb,
+            #eaf4f9
+        );
+
+    border: 1px solid #d5e6ef;
+
+    border-left:
+        5px solid #176b9c;
+
+    border-radius: 10px;
+
+    padding: 16px 18px;
+
+    margin-bottom: 28px;
+}
+
+.profit-label {
+
+    color: #123b63;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    letter-spacing: .3px;
+
+    margin-bottom: 9px;
+}
+
+.profit-input {
+
+    width: 100%;
+
+    border: 2px solid #b9dce9;
+
+    background: #cceefa;
+
+    border-radius: 7px;
+
+    padding: 12px 14px;
+
+    text-align: right;
+
+    color: #123b63;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    font-family: inherit;
+
+    outline: none;
+}
+
+.profit-input:focus {
+
+    background: #bce8f6;
+
+    border-color: #2695c4;
+
+    box-shadow:
+        0 0 0 3px rgba(38,149,196,.12);
+}
+
+
+/* =========================================================
+   SECTION HEADER
+========================================================= */
+
+.section-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-top: 27px;
+
+    margin-bottom: 9px;
+}
+
+.section-icon {
+
+    width: 27px;
+
+    height: 27px;
+
+    border-radius: 7px;
+
+    background: #e7f2f8;
+
+    color: #176b9c;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 13px;
+
+    font-weight: 800;
+}
+
+.section-header h3 {
+
+    margin: 0;
+
+    color: #123b63;
+
+    font-size: 14px;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+.section-header-line {
+
+    height: 2px;
+
+    background: #d9e4eb;
+
+    margin-bottom: 5px;
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.rows {
+
+    width: 100%;
+}
+
+.row {
+
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        45%;
+
+    min-height: 38px;
+
+    align-items: center;
+
+    border-bottom:
+        1px solid #e8edf2;
+}
+
+.label {
+
+    padding: 9px 10px;
+
+    font-size: 13px;
+
+    color: #20344a;
+}
+
+.value {
+
+    padding: 9px 10px;
+
+    text-align: right;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    font-variant-numeric:
+        tabular-nums;
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.input-wrap {
+
+    padding: 0 !important;
+}
+
+.input {
+
+    width: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: #cceefa;
+
+    color: #123b63;
+
+    border-radius: 5px;
+
+    padding: 9px 10px;
+
+    text-align: right;
+
+    font-family: inherit;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+    font-variant-numeric:
+        tabular-nums;
+}
+
+.input:focus {
+
+    background: #bce7f5;
+
+    box-shadow:
+        inset 0 0 0 2px #2695c4;
+}
+
+.input::placeholder {
+
+    color: #7b9aaa;
+
+    opacity: .8;
+}
+
+
+/* =========================================================
+   RESULT ROWS
+========================================================= */
+
+.result {
+
+    background: #dff2d7;
+
+    font-weight: 700;
+
+    border-radius: 5px;
+
+    margin-top: 2px;
+
+    border-bottom: none;
+}
+
+.result-strong {
+
+    background: #a9df96;
+
+    font-weight: 800;
+
+    border-radius: 6px;
+
+    margin-top: 2px;
+
+    border-bottom: none;
+}
+
+.result-dark {
+
+    background: #8ed66f;
+
+    font-weight: 800;
+
+    border-radius: 6px;
+
+    margin-top: 2px;
+
+    border-bottom: none;
+}
+
+
+/* =========================================================
+   CP204 MODULE
+========================================================= */
+
+.penalty-module {
+
+    margin-top: 28px;
+
+    border-radius: 12px;
+
+    background: #f8fafc;
+
+    border: 1px solid #dce5ec;
+
+    overflow: hidden;
+}
+
+.penalty-module-header {
+
+    padding: 15px 17px;
+
+    background: #f0f5f8;
+
+    border-bottom:
+        1px solid #dce5ec;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+.penalty-module-header h3 {
+
+    margin: 0;
+
+    color: #123b63;
+
+    font-size: 14px;
+
+    letter-spacing: .8px;
+}
+
+.status-badge {
+
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 10px;
+
+    font-weight: 800;
+
+    background: #e5ebef;
+
+    color: #64748b;
+}
+
+
+/* =========================================================
+   CHECK GRID
+========================================================= */
+
+.check-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 12px;
+
+    padding: 16px 17px;
+
+    background: #ffffff;
+}
+
+.check-card {
+
+    padding: 14px;
+
+    border-radius: 9px;
+
+    border: 1px solid #e1e8ee;
+
+    background: #f9fbfc;
+}
+
+.check-card-label {
+
+    font-size: 10px;
+
+    color: #73808e;
+
+    text-transform: uppercase;
+
+    letter-spacing: .6px;
+
+    margin-bottom: 7px;
+
+    font-weight: 700;
+}
+
+.check-card-value {
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    color: #17344f;
+
+    font-variant-numeric:
+        tabular-nums;
+}
+
+
+/* =========================================================
+   DIFFERENCE MODULE
+========================================================= */
+
+.difference-module {
+
+    margin: 0 17px 17px;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    border: 1px solid #dce5ec;
+
+    background: #ffffff;
+}
+
+.difference-header {
+
+    padding: 12px 15px;
+
+    background: #edf3f7;
+
+    color: #123b63;
+
+    font-size: 11px;
+
+    font-weight: 800;
+
+    letter-spacing: .8px;
+}
+
+.difference-body {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 0;
+}
+
+.diff-item {
+
+    padding: 15px;
+
+    border-right:
+        1px solid #e2e8ed;
+}
+
+.diff-item:last-child {
+
+    border-right: none;
+}
+
+.diff-label {
+
+    font-size: 10px;
+
+    color: #758292;
+
+    margin-bottom: 6px;
+
+    font-weight: 700;
+}
+
+.diff-value {
+
+    font-size: 16px;
+
+    font-weight: 800;
+
+    font-variant-numeric:
+        tabular-nums;
+}
+
+
+/* =========================================================
+   STATUS COLORS
+========================================================= */
+
+.status-ok {
+
+    background: #e4f5df !important;
+
+    color: #287044 !important;
+
+    border-color: #b8dfaa !important;
+}
+
+.status-warning {
+
+    background: #fff4d6 !important;
+
+    color: #916200 !important;
+
+    border-color: #efd28b !important;
+}
+
+.status-danger {
+
+    background: #ffe3e3 !important;
+
+    color: #a62626 !important;
+
+    border-color: #edb4b4 !important;
+}
+
+
+/* =========================================================
+   PENALTY RESULT
+========================================================= */
+
+.penalty-result {
+
+    margin: 0 17px 17px;
+
+    padding: 15px 17px;
+
+    border-radius: 9px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    background: #e4f5df;
+
+    border: 1px solid #b8dfaa;
+
+    color: #287044;
+}
+
+.penalty-result-label {
+
+    font-size: 12px;
+
+    font-weight: 800;
+}
+
+.penalty-result-value {
+
+    font-size: 17px;
+
+    font-weight: 900;
+
+    font-variant-numeric:
+        tabular-nums;
+}
+
+
+/* =========================================================
+   NOTE
+========================================================= */
+
+.note {
+
+    margin-top: 18px;
+
+    padding: 11px 13px;
+
+    border-radius: 7px;
+
+    background: #fff8e8;
+
+    border: 1px solid #f0d89c;
+
+    color: #795a16;
+
+    font-size: 11px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+
+    padding: 17px 34px;
+
+    background: #f7f9fb;
+
+    border-top:
+        1px solid #e5eaf0;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    color: #7b8794;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:700px) {
+
+    body {
+        padding: 0;
+    }
+
+    .main-card {
+        border-radius: 0;
+    }
+
+    .header {
+
+        padding: 22px 18px;
+
+        align-items: flex-start;
+
+        flex-direction: column;
+    }
+
+    .content {
+
+        padding: 22px 18px 28px;
+    }
+
+    .footer {
+
+        padding: 16px 18px;
+    }
+
+    .row {
+
+        grid-template-columns:
+            55% 45%;
+    }
+
+    .check-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .difference-body {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .diff-item {
+
+        border-right: none;
+
+        border-bottom:
+            1px solid #e2e8ed;
+    }
+
+    .diff-item:last-child {
+
+        border-bottom: none;
+    }
+
+    .penalty-result {
+
+        gap: 15px;
+    }
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print {
+
+    body {
+
+        padding: 0;
+
+        background: #ffffff;
+    }
+
+    .main-card {
+
+        width: 100%;
+
+        box-shadow: none;
+
+        border-radius: 0;
+    }
+
+    .toolbar {
+
+        display: none;
+    }
+
+    .header {
+
+        -webkit-print-color-adjust: exact;
+
+        print-color-adjust: exact;
+    }
+
+    .profit-card,
+    .result,
+    .result-strong,
+    .result-dark,
+    .penalty-module,
+    .difference-module,
+    .penalty-result,
+    .status-ok,
+    .status-warning,
+    .status-danger {
+
+        -webkit-print-color-adjust: exact;
+
+        print-color-adjust: exact;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<div class="main-card">
+
+
+<!-- ======================================================
+     HEADER
+====================================================== -->
+
+<div class="header">
+
+    <div class="header-left">
+
+        <h1>
+            QUICK CHECK TAX COMPUTATION
+        </h1>
+
+        <p>
+            Tax Estimate &amp; CP204 / CP204A Penalty Check
+        </p>
+
+    </div>
+
+    <div class="header-tag">
+        TAX CHECK
+    </div>
+
+</div>
+
+
+
+<div class="content">
+
+
+<!-- ======================================================
+     TITLE
+====================================================== -->
+
+<div class="page-title">
+
+    <h2>
+        Quick Tax &amp; Penalty Assessment
+    </h2>
+
+    <p>
+        Enter the required figures in the blue fields.
+        Calculated amounts will update automatically.
+    </p>
+
+</div>
+
+
+
+<!-- ======================================================
+     TOOLBAR
+====================================================== -->
+
+<div class="toolbar">
+
+    <button
+        type="button"
+        class="btn-clear"
+        onclick="clearAll()">
+
+        CLEAR ALL
+
+    </button>
+
+
+    <button
+        type="button"
+        class="btn-print"
+        onclick="window.print()">
+
+        PRINT / SAVE PDF
+
+    </button>
+
+</div>
+
+
+
+<!-- ======================================================
+     NET PROFIT INPUT
+====================================================== -->
+
+<div class="profit-card">
+
+    <div class="profit-label">
+
+        NET PROFIT/(LOSS) BEFORE TAX
+
+    </div>
+
+
+    <input
+        id="netProfit"
+        class="profit-input"
+        type="number"
+        step="0.01"
+        placeholder="Enter amount"
+        oninput="calculate()"
+    >
+
+</div>
+
+
+
+<!-- ======================================================
+     TAX COMPUTATION
+====================================================== -->
+
+<div class="section-header">
+
+    <div class="section-icon">
+        T
+    </div>
+
+    <h3>
+        TAX COMPUTATION
+    </h3>
+
+</div>
+
+<div class="section-header-line"></div>
+
+
+
+<div class="rows">
+
+
+    <!-- Chargeable Income -->
+
+    <div class="row result">
+
+        <div class="label">
+            CHARGEABLE INCOME
+        </div>
+
+        <div
+            class="value"
+            id="chargeableIncome">
+
+            RM 0.00
+
+        </div>
+
+    </div>
+
+
+    <!-- 15% -->
+
+    <div class="row">
+
+        <div class="label">
+            Tax at 15 % of 150,000
+        </div>
+
+        <div
+            class="value"
+            id="tax15">
+
+            RM 0.00
+
+        </div>
+
+    </div>
+
+
+    <!-- 17% -->
+
+    <div class="row">
+
+        <div class="label">
+            Tax at 17 % of 450,000
+        </div>
+
+        <div
+            class="value"
+            id="tax17">
+
+            RM 0.00
+
+        </div>
+
+    </div>
+
+
+    <!-- 24% -->
+
+    <div class="row">
+
+        <div class="label">
+            Tax at 24 %
+        </div>
+
+        <div
+            class="value"
+            id="tax24">
+
+            RM 0.00
+
+        </div>
+
+    </div>
+
+
+    <!-- Tax Payable -->
+
+    <div class="row result">
+
+        <div class="label">
+            Tax payable
+        </div>
+
+        <div
+            class="value"
+            id="taxPayable">
+
+            RM 0.00
+
+        </div>
+
+    </div>
+
+
+    <!-- Instalment -->
+
+    <div class="row">
+
+        <div class="label">
+            Less : Instalment paid
+        </div>
+
+        <div class="input-wrap">
+
+            <input
+                id="instalment"
+                class="input"
+                type="number"
+                step="0.01"
+                placeholder="0.00"
+                oninput="calculate()"
+            >
+
+        </div>
+
+    </div>
+
+
+    <!-- Balance -->
+
+    <div class="row result-strong">
+
+        <div class="label">
+            Balance of tax payable / (Refundable)
+        </div>
+
+        <div
+            class="value"
+            id="balance">
+
+            RM 0.00
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ======================================================
+     CP204 MODULE
+====================================================== -->
+
+<div class="penalty-module">
+
+
+    <div class="penalty-module-header">
+
+        <h3>
+            CP204 / CP204A PENALTY CHECK
+        </h3>
+
+        <div
+            id="statusBadge"
+            class="status-badge">
+
+            CHECK PENDING
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================
+         BASIC VALUES
+    ================================================= -->
+
+    <div class="check-grid">
+
+
+        <div class="check-card">
+
+            <div class="check-card-label">
+                Actual Tax Payable
+            </div>
+
+            <div
+                class="check-card-value"
+                id="actualTax">
+
+                RM 0.00
+
+            </div>
+
+        </div>
+
+
+
+        <div class="check-card">
+
+            <div class="check-card-label">
+                CP204 / CP204A Estimate
+            </div>
+
+            <input
+                id="cpEstimate"
+                class="input"
+                type="number"
+                step="0.01"
+                placeholder="0.00"
+                oninput="calculate()"
+            >
+
+        </div>
+
+
+
+        <div class="check-card">
+
+            <div class="check-card-label">
+                30% Threshold
+            </div>
+
+            <div
+                class="check-card-value"
+                id="threshold">
+
+                RM 0.00
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- ================================================
+         DIFFERENCE MODULE
+    ================================================= -->
+
+    <div class="difference-module">
+
+
+        <div class="difference-header">
+
+            DIFFERENCE ANALYSIS
+
+        </div>
+
+
+        <div class="difference-body">
+
+
+            <div
+                id="differenceBox"
+                class="diff-item status-ok">
+
+                <div class="diff-label">
+                    Difference
+                </div>
+
+                <div
+                    class="diff-value"
+                    id="difference">
+
+                    RM 0.00
+
+                </div>
+
+            </div>
+
+
+
+            <div
+                id="excessBox"
+                class="diff-item status-ok">
+
+                <div class="diff-label">
+                    Excess Above 30%
+                </div>
+
+                <div
+                    class="diff-value"
+                    id="excess">
+
+                    RM 0.00
+
+                </div>
+
+            </div>
+
+
+
+            <div
+                id="rateBox"
+                class="diff-item status-ok">
+
+                <div class="diff-label">
+                    Penalty Rate
+                </div>
+
+                <div
+                    class="diff-value">
+
+                    10%
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================
+         PENALTY RESULT
+    ================================================= -->
+
+    <div
+        id="penaltyResult"
+        class="penalty-result">
+
+        <div class="penalty-result-label">
+
+            PENALTY @ 10%
+
+        </div>
+
+        <div
+            class="penalty-result-value"
+            id="penalty">
+
+            RM 0.00
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ======================================================
+     NOTE
+====================================================== -->
+
+<div class="note">
+
+    <strong>Review Note:</strong>
+
+    This quick check is intended as a working calculation tool.
+    Please verify the applicable tax rules and CP204 / CP204A
+    treatment before submission.
+
+</div>
+
+
+</div>
+
+
+
+<!-- ======================================================
+     FOOTER
+====================================================== -->
+
+<div class="footer">
+
+    <span>
+        QUICK CHECK TAX COMPUTATION
+    </span>
+
+    <span>
+        All amounts in RM
+    </span>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<script>
+
+/* =========================================================
+   FORMAT RM
+========================================================= */
+
+function formatRM(value) {
+
+    return "RM " +
+        Number(value).toLocaleString("en-MY", {
+
+            minimumFractionDigits: 2,
+
+            maximumFractionDigits: 2
+
+        });
+
+}
+
+
+/* =========================================================
+   GET INPUT VALUE
+========================================================= */
+
+function getValue(id) {
+
+    const element =
+        document.getElementById(id);
+
+    const value =
+        parseFloat(element.value);
+
+    return isNaN(value)
+        ? 0
+        : value;
+
+}
+
+
+/* =========================================================
+   REMOVE STATUS CLASSES
+========================================================= */
+
+function resetStatusClasses(element) {
+
+    element.classList.remove(
+        "status-ok",
+        "status-warning",
+        "status-danger"
+    );
+
+}
+
+
+/* =========================================================
+   MAIN CALCULATION
+========================================================= */
+
+function calculate() {
+
+
+    /* =====================================================
+       NET PROFIT
+    ===================================================== */
+
+    const netProfit =
+        getValue("netProfit");
+
+
+    /*
+       Chargeable income
+    */
+
+    const chargeableIncome =
+        Math.max(
+            0,
+            netProfit
+        );
+
+
+
+    /* =====================================================
+       TAX BANDS
+       
+       First RM150,000 @ 15%
+       Next RM450,000 @ 17%
+       Balance @ 24%
+    ===================================================== */
+
+    const band15 =
+        Math.min(
+            chargeableIncome,
+            150000
+        );
+
+
+    const band17 =
+        Math.min(
+            Math.max(
+                chargeableIncome - 150000,
+                0
+            ),
+            450000
+        );
+
+
+    const band24 =
+        Math.max(
+            chargeableIncome - 600000,
+            0
+        );
+
+
+
+    const tax15 =
+        band15 * 0.15;
+
+
+    const tax17 =
+        band17 * 0.17;
+
+
+    const tax24 =
+        band24 * 0.24;
+
+
+    const taxPayable =
+        tax15 +
+        tax17 +
+        tax24;
+
+
+
+    /* =====================================================
+       INSTALMENT
+    ===================================================== */
+
+    const instalment =
+        getValue("instalment");
+
+
+    const balance =
+        taxPayable -
+        instalment;
+
+
+
+    /* =====================================================
+       ACTUAL TAX
+    ===================================================== */
+
+    const actualTax =
+        Math.max(
+            0,
+            balance
+        );
+
+
+
+    /* =====================================================
+       CP204 ESTIMATE
+    ===================================================== */
+
+    const cpEstimate =
+        getValue("cpEstimate");
+
+
+
+    /* =====================================================
+       DIFFERENCE
+    ===================================================== */
+
+    const difference =
+        Math.max(
+            0,
+            actualTax - cpEstimate
+        );
+
+
+
+    /* =====================================================
+       30% THRESHOLD
+    ===================================================== */
+
+    const threshold =
+        actualTax * 0.30;
+
+
+
+    /* =====================================================
+       EXCESS
+    ===================================================== */
+
+    const excess =
+        Math.max(
+            0,
+            difference - threshold
+        );
+
+
+
+    /* =====================================================
+       PENALTY
+    ===================================================== */
+
+    const penalty =
+        excess * 0.10;
+
+
+
+    /* =====================================================
+       DISPLAY
+    ===================================================== */
+
+    document.getElementById(
+        "chargeableIncome"
+    ).textContent =
+        formatRM(chargeableIncome);
+
+
+    document.getElementById(
+        "tax15"
+    ).textContent =
+        formatRM(tax15);
+
+
+    document.getElementById(
+        "tax17"
+    ).textContent =
+        formatRM(tax17);
+
+
+    document.getElementById(
+        "tax24"
+    ).textContent =
+        formatRM(tax24);
+
+
+    document.getElementById(
+        "taxPayable"
+    ).textContent =
+        formatRM(taxPayable);
+
+
+    document.getElementById(
+        "balance"
+    ).textContent =
+        formatRM(balance);
+
+
+    document.getElementById(
+        "actualTax"
+    ).textContent =
+        formatRM(actualTax);
+
+
+    document.getElementById(
+        "threshold"
+    ).textContent =
+        formatRM(threshold);
+
+
+    document.getElementById(
+        "difference"
+    ).textContent =
+        formatRM(difference);
+
+
+    document.getElementById(
+        "excess"
+    ).textContent =
+        formatRM(excess);
+
+
+    document.getElementById(
+        "penalty"
+    ).textContent =
+        formatRM(penalty);
+
+
+
+    /* =====================================================
+       STATUS MODULE
+    ===================================================== */
+
+    const differenceBox =
+        document.getElementById(
+            "differenceBox"
+        );
+
+    const excessBox =
+        document.getElementById(
+            "excessBox"
+        );
+
+    const rateBox =
+        document.getElementById(
+            "rateBox"
+        );
+
+    const penaltyResult =
+        document.getElementById(
+            "penaltyResult"
+        );
+
+    const statusBadge =
+        document.getElementById(
+            "statusBadge"
+        );
+
+
+    /*
+       Clear previous colours
+    */
+
+    resetStatusClasses(
+        differenceBox
+    );
+
+    resetStatusClasses(
+        excessBox
+    );
+
+    resetStatusClasses(
+        rateBox
+    );
+
+
+
+    /* =====================================================
+       NO EXCESS
+    ===================================================== */
+
+    if (excess <= 0) {
+
+
+        differenceBox.classList.add(
+            "status-ok"
+        );
+
+
+        excessBox.classList.add(
+            "status-ok"
+        );
+
+
+        rateBox.classList.add(
+            "status-ok"
+        );
+
+
+        penaltyResult.classList.remove(
+            "status-danger"
+        );
+
+
+        penaltyResult.classList.add(
+            "status-ok"
+        );
+
+
+        statusBadge.textContent =
+            "NO EXCESS";
+
+
+        statusBadge.style.background =
+            "#e4f5df";
+
+        statusBadge.style.color =
+            "#287044";
+
+
+    }
+
+
+    /* =====================================================
+       PENALTY / EXCESS
+    ===================================================== */
+
+    else {
+
+
+        differenceBox.classList.add(
+            "status-warning"
+        );
+
+
+        excessBox.classList.add(
+            "status-danger"
+        );
+
+
+        rateBox.classList.add(
+            "status-danger"
+        );
+
+
+        penaltyResult.classList.remove(
+            "status-ok"
+        );
+
+
+        penaltyResult.classList.add(
+            "status-danger"
+        );
+
+
+        statusBadge.textContent =
+            "PENALTY CHECK";
+
+
+        statusBadge.style.background =
+            "#ffe3e3";
+
+        statusBadge.style.color =
+            "#a62626";
+
+    }
+
+}
+
+
+
+/* =========================================================
+   CLEAR ALL
+========================================================= */
+
+function clearAll() {
+
+
+    /*
+       Clear every input field
+    */
+
+    document
+        .querySelectorAll("input")
+        .forEach(function(input) {
+
+            input.value = "";
+
+        });
+
+
+    /*
+       Recalculate everything
+    */
+
+    calculate();
+
+}
+
+
+
+/* =========================================================
+   INITIAL
+========================================================= */
+
+calculate();
+
+</script>
+
+
+</body>
+
+</html>
