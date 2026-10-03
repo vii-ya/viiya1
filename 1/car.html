@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Professional Malaysia car loan affordability calculator. Estimate affordable car price from salary, commitments, down payment, interest rate and loan tenure.">
+<title>Malaysia Car Loan & Salary Affordability Calculator</title>
+<style>
+  :root{
+    --bg:#f4f7fb; --card:#fff; --text:#172033; --muted:#667085;
+    --primary:#155eef; --primary2:#004eeb; --line:#e4e7ec;
+    --good:#067647; --goodbg:#ecfdf3; --warn:#b54708; --warnbg:#fffaeb;
+    --bad:#b42318; --badbg:#fef3f2; --shadow:0 10px 30px rgba(16,24,40,.08);
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+  .wrap{max-width:1180px;margin:auto;padding:28px 18px 50px}
+  header{margin-bottom:22px}
+  h1{font-size:clamp(28px,4vw,42px);line-height:1.1;margin:0 0 10px;letter-spacing:-.8px}
+  h2{font-size:19px;margin:0 0 16px}
+  h3{font-size:15px;margin:0 0 10px}
+  .subtitle{color:var(--muted);max-width:760px;line-height:1.6}
+  .grid{display:grid;grid-template-columns:380px 1fr;gap:20px;align-items:start}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:22px}
+  .section{padding-bottom:18px;margin-bottom:18px;border-bottom:1px solid var(--line)}
+  .section:last-child{border-bottom:0;margin-bottom:0;padding-bottom:0}
+  label{display:block;font-size:13px;font-weight:650;margin-bottom:7px}
+  .field{margin-bottom:14px}
+  input,select{width:100%;height:44px;border:1px solid #d0d5dd;border-radius:10px;padding:0 12px;font-size:15px;color:var(--text);background:#fff;outline:none}
+  input:focus,select:focus{border-color:#84adff;box-shadow:0 0 0 3px rgba(21,94,239,.1)}
+  .input-wrap{position:relative}
+  .prefix{position:absolute;left:12px;top:12px;color:var(--muted);font-size:14px}
+  .input-wrap input{padding-left:42px}
+  .suffix{position:absolute;right:12px;top:12px;color:var(--muted);font-size:13px}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .hint{font-size:11.5px;color:var(--muted);line-height:1.45;margin-top:5px}
+  .result-hero{background:linear-gradient(135deg,#0b4fd7,#155eef);color:#fff;border-radius:16px;padding:23px;margin-bottom:16px}
+  .result-label{font-size:13px;opacity:.85}
+  .big{font-size:38px;font-weight:800;letter-spacing:-1px;margin:4px 0}
+  .hero-sub{font-size:13px;opacity:.85}
+  .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+  .metric{border:1px solid var(--line);border-radius:14px;padding:15px;background:#fff}
+  .metric .label{color:var(--muted);font-size:11.5px;margin-bottom:4px}
+  .metric .value{font-weight:750;font-size:18px}
+  .metric small{color:var(--muted);font-size:11px}
+  .bar-box{border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+  .bar-title{display:flex;justify-content:space-between;font-size:13px;font-weight:650;margin-bottom:9px}
+  .bar{height:11px;background:#eef2f6;border-radius:99px;overflow:hidden}
+  .fill{height:100%;border-radius:99px;transition:.25s}
+  .status{padding:13px 15px;border-radius:12px;font-size:13px;line-height:1.5;margin-bottom:16px}
+  .good{background:var(--goodbg);color:var(--good)}
+  .warn{background:var(--warnbg);color:var(--warn)}
+  .bad{background:var(--badbg);color:var(--bad)}
+  .table{width:100%;border-collapse:collapse;font-size:13px}
+  .table td{padding:9px 0;border-bottom:1px solid #f0f2f5}
+  .table td:last-child{text-align:right;font-weight:650}
+  .table tr:last-child td{border-bottom:0}
+  .total{font-size:16px;font-weight:800}
+  .note{font-size:11.5px;color:var(--muted);line-height:1.6}
+  .preset{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+  button{border:1px solid #cdd5df;background:#fff;border-radius:9px;padding:7px 10px;cursor:pointer;font-size:12px}
+  button:hover{border-color:var(--primary);color:var(--primary)}
+  .footer{margin-top:18px;text-align:center;color:var(--muted);font-size:11.5px;line-height:1.6}
+  .toggle{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted)}
+  .toggle input{width:auto;height:auto}
+  .smallcaps{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:750}
+  @media(max-width:850px){.grid{grid-template-columns:1fr}.metrics{grid-template-columns:1fr 1fr}.three{grid-template-columns:1fr}}
+  @media(max-width:480px){.wrap{padding:18px 12px 35px}.card{padding:16px}.metrics{grid-template-columns:1fr}.big{font-size:32px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="smallcaps">Malaysia • Hire Purchase • Affordability</div>
+    <h1>Car Loan & Salary Affordability Calculator</h1>
+    <div class="subtitle">Estimate how much car you can reasonably afford based on your take-home salary, existing commitments, down payment, loan rate and tenure. The calculation is an estimate—not a bank approval.</div>
+  </header>
+
+  <div class="grid">
+    <div class="card">
+      <div class="section">
+        <h2>1. Your income & commitments</h2>
+        <div class="field">
+          <label for="salary">Monthly take-home salary</label>
+          <div class="input-wrap"><span class="prefix">RM</span><input id="salary" type="number" min="0" step="100" value="5000"></div>
+          <div class="hint">Use net salary after EPF, SOCSO, EIS and income tax. For variable income, use a conservative average.</div>
+        </div>
+        <div class="field">
+          <label for="commitments">Existing monthly debt commitments</label>
+          <div class="input-wrap"><span class="prefix">RM</span><input id="commitments" type="number" min="0" step="50" value="800"></div>
+          <div class="hint">Include housing loan, PTPTN, personal loan, credit-card instalments and other regular debt payments.</div>
+        </div>
+        <div class="field">
+          <label for="dsr">Target DSR for this estimate</label>
+          <div class="input-wrap"><input id="dsr" type="number" min="0" max="100" step="1" value="40"><span class="suffix">%</span></div>
+          <div class="preset">
+            <button type="button" onclick="setVal('dsr',35)">35% Conservative</button>
+            <button type="button" onclick="setVal('dsr',40)">40% Moderate</button>
+            <button type="button" onclick="setVal('dsr',50)">50% Higher</button>
+          </div>
+          <div class="hint">This is a planning assumption. Actual bank DSR rules differ by lender, income and borrower profile.</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>2. Car loan assumptions</h2>
+        <div class="two">
+          <div class="field">
+            <label for="down">Down payment</label>
+            <div class="input-wrap"><input id="down" type="number" min="0" max="100" step="1" value="10"><span class="suffix">%</span></div>
+          </div>
+          <div class="field">
+            <label for="rate">Interest rate</label>
+            <div class="input-wrap"><input id="rate" type="number" min="0" max="20" step=".01" value="3.0"><span class="suffix">% p.a.</span></div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="tenure">Loan tenure</label>
+          <select id="tenure">
+            <option value="5">5 years</option>
+            <option value="6">6 years</option>
+            <option value="7" selected>7 years</option>
+            <option value="8">8 years</option>
+            <option value="9">9 years</option>
+          </select>
+          <div class="hint">Malaysia hire-purchase calculations commonly use a flat-rate structure. Your actual financing terms may differ.</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>3. Ownership budget</h2>
+        <div class="field">
+          <label for="running">Estimated monthly non-loan car cost</label>
+          <div class="input-wrap"><span class="prefix">RM</span><input id="running" type="number" min="0" step="50" value="500"></div>
+          <div class="hint">Fuel + maintenance + insurance/road-tax reserve + toll/parking. This is separate from the loan instalment.</div>
+        </div>
+        <div class="field">
+          <label for="buffer">Minimum monthly cash buffer after car costs</label>
+          <div class="input-wrap"><span class="prefix">RM</span><input id="buffer" type="number" min="0" step="50" value="1000"></div>
+          <div class="hint">A personal safety margin for food, utilities, savings and unexpected expenses.</div>
+        </div>
+        <label class="toggle"><input id="useBuffer" type="checkbox" checked> Include the cash-buffer check in the recommendation</label>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="result-hero">
+          <div class="result-label">Estimated maximum car price</div>
+          <div class="big" id="carPrice">RM 0</div>
+          <div class="hero-sub">Based on your target DSR and estimated loan assumptions</div>
+        </div>
+
+        <div class="metrics">
+          <div class="metric"><div class="label">Max loan amount</div><div class="value" id="loanAmount">RM 0</div></div>
+          <div class="metric"><div class="label">Down payment</div><div class="value" id="downAmount">RM 0</div></div>
+          <div class="metric"><div class="label">Max loan instalment</div><div class="value" id="instalment">RM 0</div></div>
+          <div class="metric"><div class="label">Existing debt</div><div class="value" id="existingDebt">RM 0</div></div>
+          <div class="metric"><div class="label">Total monthly car cost</div><div class="value" id="totalCar">RM 0</div></div>
+          <div class="metric"><div class="label">Effective debt ratio</div><div class="value" id="effectiveDsr">0%</div></div>
+        </div>
+
+        <div id="status" class="status good"></div>
+
+        <div class="bar-box">
+          <div class="bar-title"><span>Debt-service allocation</span><span id="barText">0%</span></div>
+          <div class="bar"><div id="barFill" class="fill" style="width:0%"></div></div>
+          <div class="hint">Existing debt + estimated car instalment ÷ take-home salary.</div>
+        </div>
+
+        <div class="card" style="box-shadow:none;padding:0;border:0">
+          <h2>Loan breakdown</h2>
+          <table class="table">
+            <tr><td>Estimated car price</td><td id="tPrice">RM 0</td></tr>
+            <tr><td>Down payment</td><td id="tDown">RM 0</td></tr>
+            <tr><td>Financed amount</td><td id="tLoan">RM 0</td></tr>
+            <tr><td>Flat interest rate</td><td id="tRate">0%</td></tr>
+            <tr><td>Estimated total interest</td><td id="tInterest">RM 0</td></tr>
+            <tr><td>Total loan repayment</td><td id="tRepay">RM 0</td></tr>
+            <tr><td>Tenure</td><td id="tTenure">0 years</td></tr>
+            <tr><td class="total">Estimated monthly instalment</td><td class="total" id="tMonthly">RM 0</td></tr>
+          </table>
+        </div>
+
+        <div class="card" style="box-shadow:none;padding:16px;margin-top:16px;background:#f8fafc;border-color:#eaecf0">
+          <h3>Affordability check</h3>
+          <table class="table">
+            <tr><td>Take-home salary</td><td id="aSalary">RM 0</td></tr>
+            <tr><td>Existing commitments</td><td id="aCommit">RM 0</td></tr>
+            <tr><td>Car instalment</td><td id="aInstal">RM 0</td></tr>
+            <tr><td>Other car ownership cost</td><td id="aRunning">RM 0</td></tr>
+            <tr><td>Money left after listed costs</td><td id="aLeft">RM 0</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <strong>Important:</strong> This calculator is for financial planning only. It does not represent an offer, approval or exact DSR calculation by any Malaysian bank or financier.
+    Actual eligibility can depend on income verification, CCRIS/CTOS information, age, employment, credit profile, vehicle type, margin of financing, lender policy, fees and other factors.
+  </div>
+</div>
+
+<script>
+const ids = ["salary","commitments","dsr","down","rate","tenure","running","buffer","useBuffer"];
+ids.forEach(id => {
+  const el=document.getElementById(id);
+  el.addEventListener("input", calculate);
+  el.addEventListener("change", calculate);
+});
+
+function n(id){ return Math.max(0, Number(document.getElementById(id).value) || 0); }
+function setVal(id,v){ document.getElementById(id).value=v; calculate(); }
+function rm(x){ return "RM " + Math.round(x).toLocaleString("en-MY"); }
+function pct(x){ return (isFinite(x)?x:0).toFixed(1) + "%"; }
+
+function calculate(){
+  const salary=n("salary");
+  const commitments=n("commitments");
+  const dsr=Math.min(100,n("dsr"))/100;
+  const downPct=Math.min(99.9,n("down"))/100;
+  const rate=n("rate")/100;
+  const years=Math.max(1,n("tenure"));
+  const running=n("running");
+  const buffer=n("buffer");
+  const useBuffer=document.getElementById("useBuffer").checked;
+
+  // Maximum instalment under the user's planning DSR.
+  const dsrInstallment=Math.max(0, salary*dsr - commitments);
+
+  // Optional second ceiling: leave the selected cash buffer after debt + car running costs.
+  const bufferInstallment=useBuffer ? Math.max(0, salary - commitments - running - buffer) : Infinity;
+  const maxInstallment=Math.max(0, Math.min(dsrInstallment, bufferInstallment));
+
+  // Malaysian-style flat-rate estimate:
+  // total interest = principal * annual flat rate * years
+  // monthly = (principal + interest) / months
+  const months=years*12;
+  const factor=(1 + rate*years);
+  const maxLoan=maxInstallment*months/factor;
+  const carPrice=maxLoan/(1-downPct);
+  const downAmount=carPrice*downPct;
+  const interest=maxLoan*rate*years;
+  const repayment=maxLoan+interest;
+  const totalCar=maxInstallment+running;
+  const left=salary-commitments-maxInstallment-running;
+  const effective=(salary>0)?(commitments+maxInstallment)/salary*100:0;
+
+  document.getElementById("carPrice").textContent=rm(carPrice);
+  document.getElementById("loanAmount").textContent=rm(maxLoan);
+  document.getElementById("downAmount").textContent=rm(downAmount);
+  document.getElementById("instalment").textContent=rm(maxInstallment);
+  document.getElementById("existingDebt").textContent=rm(commitments);
+  document.getElementById("totalCar").textContent=rm(totalCar);
+  document.getElementById("effectiveDsr").textContent=pct(effective);
+
+  document.getElementById("tPrice").textContent=rm(carPrice);
+  document.getElementById("tDown").textContent=rm(downAmount);
+  document.getElementById("tLoan").textContent=rm(maxLoan);
+  document.getElementById("tRate").textContent=(rate*100).toFixed(2)+"% p.a.";
+  document.getElementById("tInterest").textContent=rm(interest);
+  document.getElementById("tRepay").textContent=rm(repayment);
+  document.getElementById("tTenure").textContent=years+" years";
+  document.getElementById("tMonthly").textContent=rm(maxInstallment);
+
+  document.getElementById("aSalary").textContent=rm(salary);
+  document.getElementById("aCommit").textContent=rm(commitments);
+  document.getElementById("aInstal").textContent=rm(maxInstallment);
+  document.getElementById("aRunning").textContent=rm(running);
+  document.getElementById("aLeft").textContent=rm(left);
+
+  const bar=Math.min(100,effective);
+  document.getElementById("barFill").style.width=bar+"%";
+  document.getElementById("barText").textContent=pct(effective);
+
+  const status=document.getElementById("status");
+  status.className="status";
+  if(!salary){
+    status.classList.add("warn");
+    status.textContent="Enter your take-home salary to calculate affordability.";
+  }else if(maxInstallment<=0){
+    status.classList.add("bad");
+    status.textContent="No loan instalment is available under the selected DSR/buffer assumptions. Reduce existing commitments, increase income, or review the planning assumptions.";
+  }else if(useBuffer && bufferInstallment < dsrInstallment){
+    status.classList.add("good");
+    status.textContent="Your result is limited by the cash-buffer rule rather than the DSR target. This keeps at least "+rm(buffer)+" per month after existing debt and estimated car running costs.";
+  }else if(effective > n("dsr")){
+    status.classList.add("warn");
+    status.textContent="The result is constrained by your cash-buffer rule. The displayed loan instalment itself does not exceed your selected DSR target.";
+  }else{
+    status.classList.add("good");
+    status.textContent="The displayed car price fits within your selected planning DSR and, if enabled, your monthly cash-buffer assumption.";
+  }
+}
+calculate();
+</script>
+</body>
+</html>
